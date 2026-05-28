@@ -1,5 +1,5 @@
-const {motion, AnimatePresence} = window.Motion;
-const {useRef, useEffect, useState, useCallback} = React;
+var {motion, AnimatePresence} = window.Motion;
+var {useRef, useEffect, useState, useCallback} = React;
 
 /* ── Tech Stack Section ── */
 const techStack = [

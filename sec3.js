@@ -1,5 +1,5 @@
-const {motion, AnimatePresence} = window.Motion;
-const {useRef, useEffect, useState} = React;
+var {motion, AnimatePresence} = window.Motion;
+var {useRef, useEffect, useState} = React;
 
 /* ── Journey Timeline ── */
 const journey = [
