@@ -1,4 +1,4 @@
-# 🚀 Rishi Sharma — Futuristic Developer Portfolio
+# 🚀 Rishi Sharma — .Futuristic Developer Portfolio.
 
 A cinematic and futuristic personal portfolio built with modern web technologies, interactive animations, and cyber-inspired UI aesthetics. Designed to showcase projects, skills, creativity, and passion for building immersive digital experiences.
 
@@ -30,7 +30,6 @@ A cinematic and futuristic personal portfolio built with modern web technologies
 * GSAP
 * Three.js *(optional/future integration)*
 
----
 
 ## 📂 Sections
 
@@ -40,17 +39,12 @@ A cinematic and futuristic personal portfolio built with modern web technologies
 * Projects
 * Experience
 * Contact
-
 ---
-
 ## 🌟 Vision
 
 This portfolio is more than just a website — it's an interactive digital experience crafted to blend creativity, motion, and technology into one immersive platform.
-
 ---
-
 ## 📸 Preview
-
 > “Building the future one line of code at a time.”
 
 ---
@@ -80,8 +74,8 @@ npm run dev
 
 ## 📬 Contact
 
-* GitHub: your-github
-* LinkedIn: your-linkedin
+* GitHub: Rishisharma029
+* LinkedIn: https://www.linkedin.com/in/rishi-sharma-169735381/
 * Email: [your-email@example.com](mailto:i.rishisharma2007@gmail.com)
 
 ---
