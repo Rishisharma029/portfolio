@@ -82,7 +82,7 @@ npm run dev
 
 * GitHub: your-github
 * LinkedIn: your-linkedin
-* Email: [your-email@example.com](mailto:your-email@example.com)
+* Email: [your-email@example.com](mailto:i.rishisharma2007@gmail.com)
 
 ---
 
