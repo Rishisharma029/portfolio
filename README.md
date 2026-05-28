@@ -1,25 +1,25 @@
-# 🚀 Rishi Sharma — .Futuristic Developer Portfolio.
+# ðŸš€ Rishi Sharma â€” .Futuristic Developer Portfolio.
 
 A cinematic and futuristic personal portfolio built with modern web technologies, interactive animations, and cyber-inspired UI aesthetics. Designed to showcase projects, skills, creativity, and passion for building immersive digital experiences.
 
 ---
 
-## ✨ Features
+## âœ¨ Features
 
-* 🔥 Cinematic Hero Section
-* ⚡ Smooth Scroll Animations
-* 🌌 Futuristic Cyberpunk UI
-* 💻 Interactive Project Showcase
-* 🎭 Glassmorphism + Neon Effects
-* 📱 Fully Responsive Design
-* 🚀 Modern Motion Transitions
-* 🧠 Developer-Focused Experience
-* 🌠 Dynamic Visual Effects
-* 🎯 Optimized Performance
+* ðŸ”¥ Cinematic Hero Section
+* âš¡ Smooth Scroll Animations
+* ðŸŒŒ Futuristic Cyberpunk UI
+* ðŸ’» Interactive Project Showcase
+* ðŸŽ­ Glassmorphism + Neon Effects
+* ðŸ“± Fully Responsive Design
+* ðŸš€ Modern Motion Transitions
+* ðŸ§  Developer-Focused Experience
+* ðŸŒ  Dynamic Visual Effects
+* ðŸŽ¯ Optimized Performance
 
 ---
 
-## 🛠️ Tech Stack
+## ðŸ› ï¸ Tech Stack
 
 * HTML5
 * CSS3
@@ -31,7 +31,7 @@ A cinematic and futuristic personal portfolio built with modern web technologies
 * Three.js *(optional/future integration)*
 
 
-## 📂 Sections
+## ðŸ“‚ Sections
 
 * Home
 * About
@@ -40,16 +40,16 @@ A cinematic and futuristic personal portfolio built with modern web technologies
 * Experience
 * Contact
 ---
-## 🌟 Vision
+## ðŸŒŸ Vision
 
-This portfolio is more than just a website — it's an interactive digital experience crafted to blend creativity, motion, and technology into one immersive platform.
+This portfolio is more than just a website â€” it's an interactive digital experience crafted to blend creativity, motion, and technology into one immersive platform.
 ---
-## 📸 Preview
-> “Building the future one line of code at a time.”
+## ðŸ“¸ Preview
+> â€œBuilding the future one line of code at a time.â€
 
 ---
 
-## 🚀 Getting Started
+## ðŸš€ Getting Started
 
 Clone the repository:
 
@@ -72,7 +72,7 @@ npm run dev
 
 ---
 
-## 📬 Contact
+## ðŸ“¬ Contact
 
 * GitHub: Rishisharma029
 * LinkedIn: https://www.linkedin.com/in/rishi-sharma-169735381/
@@ -80,7 +80,7 @@ npm run dev
 
 ---
 
-## 🧠 Future Plans
+## ðŸ§  Future Plans
 
 * AI Assistant Integration
 * Interactive Terminal
@@ -91,9 +91,9 @@ npm run dev
 
 ---
 
-## ⭐ Support
+## â­ Support
 
-If you like this project, consider giving it a ⭐ on GitHub.
+If you like this project, consider giving it a â­ on GitHub.
 
 ---
 
