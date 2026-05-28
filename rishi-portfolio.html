@@ -1,0 +1,1217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rishi Sharma â€” Portfolio</title>
+<meta name="description" content="Rishi Sharma â€” BCA student, builder, cybersecurity enthusiast."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{heading:['"Instrument Serif"','serif'],body:['Barlow','sans-serif'],mono:['"JetBrains Mono"','monospace']},borderRadius:{DEFAULT:'9999px'}}}}</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#000;font-family:'Barlow',sans-serif;color:#fff;overflow-x:hidden}
+@media(hover:hover){body{cursor:none}}
+
+.liquid-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.liquid-glass-strong{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(50px);-webkit-backdrop-filter:blur(50px);border:none;box-shadow:4px 4px 4px rgba(0,0,0,0.05),inset 0 1px 1px rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.liquid-glass-strong::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.2) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.2) 80%,rgba(255,255,255,0.5) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+.cursor-dot{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(255,255,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:width 0.3s,height 0.3s,border-color 0.3s}
+@media(hover:none){.cursor-dot,.cursor-ring{display:none!important}}
+
+#loader{position:fixed;inset:0;background:#000;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease}
+#loader.hide{opacity:0;pointer-events:none}
+#loader-scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0px,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 4px);pointer-events:none;animation:scanmove 8s linear infinite}
+@keyframes scanmove{0%{background-position:0 0}100%{background-position:0 100px}}
+#loader-corner-tl,#loader-corner-tr,#loader-corner-bl,#loader-corner-br{position:absolute;width:24px;height:24px;border-color:rgba(255,255,255,0.35);border-style:solid;}
+#loader-corner-tl{top:32px;left:32px;border-width:1px 0 0 1px}
+#loader-corner-tr{top:32px;right:32px;border-width:1px 1px 0 0}
+#loader-corner-bl{bottom:32px;left:32px;border-width:0 0 1px 1px}
+#loader-corner-br{bottom:32px;right:32px;border-width:0 1px 1px 0}
+.auth-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:rgba(255,255,255,0.3);margin-bottom:48px;text-transform:uppercase}
+#auth-text{font-family:'JetBrains Mono',monospace;font-size:0.9rem;letter-spacing:0.12em;color:rgba(255,255,255,0.7);min-height:1.5em;text-align:center}
+#access-granted{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.8rem;color:#fff;opacity:0;transform:scale(0.92);transition:opacity 0.6s ease,transform 0.6s ease;margin-top:16px;letter-spacing:-1px}
+#access-granted.show{opacity:1;transform:scale(1)}
+.auth-bar{width:240px;height:1px;background:rgba(255,255,255,0.08);margin-top:36px;overflow:hidden}
+.auth-bar-fill{height:100%;background:rgba(255,255,255,0.5);width:0;transition:width 0.05s linear}
+
+.terminal-window{background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-family:'JetBrains Mono',monospace;overflow:hidden}
+.terminal-header{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.terminal-dot{width:10px;height:10px;border-radius:50%}
+.terminal-body{padding:20px;min-height:300px;font-size:13px;line-height:1.8;color:rgba(255,255,255,0.9)}
+.t-green{color:#6ee7b7}
+.t-cyan{color:#67e8f9}
+.t-dim{color:rgba(255,255,255,0.5)}
+.cursor-blink{display:inline-block;width:8px;height:16px;background:#6ee7b7;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.tl-line{position:absolute;left:24px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.15),transparent)}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 15px rgba(255,255,255,0.3);flex-shrink:0}
+
+#particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.4}
+
+.video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0.2) 40%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0.7) 100%);pointer-events:none}
+@keyframes pulse-dot{0%,100%{opacity:0.6;box-shadow:0 0 4px #6ee7b7}50%{opacity:1;box-shadow:0 0 12px #6ee7b7}}
+@keyframes sweep-reveal{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+</style>
+</head>
+<body>
+<div id="loader">
+  <div id="loader-scanlines"></div>
+  <div id="loader-corner-tl"></div><div id="loader-corner-tr"></div>
+  <div id="loader-corner-bl"></div><div id="loader-corner-br"></div>
+  <div class="auth-label">Portfolio OS v2.6.0 â€” Initializing</div>
+  <div id="auth-text"></div>
+  <div id="access-granted">Access Granted.</div>
+  <div class="auth-bar"><div class="auth-bar-fill" id="auth-bar-fill"></div></div>
+</div>
+<canvas id="particles-canvas"></canvas>
+<div id="root"></div>
+<script type="text/babel">
+/* Suppress Framer Motion key warnings */
+const _origErr=console.error;
+console.error=(...a)=>{if(typeof a[0]==='string'&&a[0].includes('unique "key"'))return;_origErr(...a)};
+
+const{useRef,useEffect,useState,useCallback,useMemo}=React;
+const{motion,AnimatePresence,useInView}=window.Motion;
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FadingVideo â€” rAF-driven crossfade
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const FADE_MS=500,FADE_OUT_LEAD=0.55;
+function FadingVideo({src,className,style}){
+  const vRef=useRef(null),rafRef=useRef(null),foRef=useRef(false);
+  const fadeTo=useCallback((t,d)=>{
+    if(rafRef.current)cancelAnimationFrame(rafRef.current);
+    const v=vRef.current;if(!v)return;
+    const s=parseFloat(v.style.opacity)||0,st=performance.now();
+    const step=now=>{const p=Math.min((now-st)/d,1);v.style.opacity=s+(t-s)*p;if(p<1)rafRef.current=requestAnimationFrame(step)};
+    rafRef.current=requestAnimationFrame(step);
+  },[]);
+  useEffect(()=>{
+    const v=vRef.current;if(!v)return;
+    const onL=()=>{v.style.opacity='0';v.play();fadeTo(1,FADE_MS)};
+    const onT=()=>{if(!foRef.current&&v.duration-v.currentTime<=FADE_OUT_LEAD&&v.duration-v.currentTime>0){foRef.current=true;fadeTo(0,FADE_MS)}};
+    const onE=()=>{v.style.opacity='0';setTimeout(()=>{v.currentTime=0;v.play();foRef.current=false;fadeTo(1,FADE_MS)},100)};
+    v.addEventListener('loadeddata',onL);v.addEventListener('timeupdate',onT);v.addEventListener('ended',onE);
+    return()=>{if(rafRef.current)cancelAnimationFrame(rafRef.current);v.removeEventListener('loadeddata',onL);v.removeEventListener('timeupdate',onT);v.removeEventListener('ended',onE)};
+  },[fadeTo]);
+  return <video ref={vRef} src={src} autoPlay muted playsInline preload="auto" className={className} style={{...style,opacity:0}}/>;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   BlurText â€” word-by-word blur-in
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function BlurText({text,className,style}){
+  const ref=useRef(null);const[go,setGo]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){setGo(true);o.disconnect()}},{threshold:0.1});if(ref.current)o.observe(ref.current);return()=>o.disconnect()},[]);
+  return(
+    <p ref={ref} className={className} style={{display:'flex',flexWrap:'wrap',justifyContent:'center',rowGap:'0.1em',...(style||{})}}>
+      {text.split(' ').map((w,i)=>(
+        <motion.span key={i} style={{display:'inline-block',marginRight:'0.28em'}}
+          initial={{filter:'blur(10px)',opacity:0,y:50}}
+          animate={go?{filter:['blur(10px)','blur(5px)','blur(0px)'],opacity:[0,0.5,1],y:[50,-5,0]}:{}}
+          transition={{duration:0.7,times:[0,0.5,1],ease:'easeOut',delay:(i*100)/1000}}>
+          {w}
+        </motion.span>
+      ))}
+    </p>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Scroll-triggered animation helpers
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const sv={hidden:{opacity:0,y:40,filter:'blur(6px)'},visible:{opacity:1,y:0,filter:'blur(0px)'}};
+function ScrollReveal({children,className,delay=0,style}){
+  return(
+    <motion.div className={className} style={style}
+      initial="hidden" whileInView="visible" viewport={{once:true,amount:0.15}}
+      variants={sv} transition={{duration:0.7,delay,ease:'easeOut'}}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Animated Counter (for stats)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function AnimatedCounter({end,suffix='',duration=2000}){
+  const[count,setCount]=useState(0);
+  const ref=useRef(null);
+  const inView=useInView(ref,{once:true,amount:0.5});
+  useEffect(()=>{
+    if(!inView)return;
+    const start=performance.now();
+    const step=now=>{
+      const p=Math.min((now-start)/duration,1);
+      const eased=1-Math.pow(1-p,3);
+      setCount(Math.floor(eased*end));
+      if(p<1)requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  },[inView,end,duration]);
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Magnetic Button
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function MagneticButton({children,className,href,onClick,target,rel}){
+  const ref=useRef(null);
+  const[offset,setOffset]=useState({x:0,y:0});
+  const handleMove=useCallback(e=>{
+    const rect=ref.current.getBoundingClientRect();
+    const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+    setOffset({x:(e.clientX-cx)*0.15,y:(e.clientY-cy)*0.15});
+  },[]);
+  const handleLeave=useCallback(()=>setOffset({x:0,y:0}),[]);
+  const Tag=href?'a':'button';
+  const props=href?{href,target,rel}:{onClick};
+  return(
+    <Tag ref={ref} {...props} className={className} onMouseMove={handleMove} onMouseLeave={handleLeave}
+      style={{transform:`translate(${offset.x}px,${offset.y}px)`,transition:'transform 0.25s cubic-bezier(0.23,1,0.32,1)',display:'inline-flex',alignItems:'center'}}>
+      {children}
+    </Tag>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Icons (SVG)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function ArrowUpRight({className}){return<svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>}
+function PlayIcon({className}){return<svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>}
+function ClockIcon(){return<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>}
+function GlobeIcon(){return<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>}
+function ImgIcon(){return<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white h-6 w-6"><path d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z"/></svg>}
+function MovIcon(){return<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white h-6 w-6"><path d="M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z"/></svg>}
+function BulbIcon(){return<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white h-6 w-6"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z"/></svg>}
+function ChevronDown({className,style}){return<svg className={className} style={style} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>}
+
+/* Tech stack icons */
+function ReactIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#61DAFB" strokeWidth="1"><circle cx="12" cy="12" r="2.5" fill="#61DAFB" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>}
+function NodeIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#68A063" strokeWidth="1.2" strokeLinejoin="round"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M12 22V12"/><path d="M3 7l9 5 9-5"/></svg>}
+function PythonIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFD43B" strokeWidth="1.2"><path d="M12 2C8 2 8 4 8 4v3h4v1H6s-4 0-4 4 2 4 2 4h2v-3s0-2 2-2h5s2 0 2-2V4s0-2-4-2zm-1 1.5a.75.75 0 110 1.5.75.75 0 010-1.5z"/><path d="M12 22c4 0 4-2 4-2v-3h-4v-1h6s4 0 4-4-2-4-2-4h-2v3s0 2-2 2h-5s-2 0-2 2v4s0 2 4 2zm1-1.5a.75.75 0 110-1.5.75.75 0 010 1.5z" stroke="#3776AB"/></svg>}
+function NextIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.2"><circle cx="12" cy="12" r="10"/><path d="M8 8v8"/><path d="M8 8l8 10"/><path d="M16 8v4" strokeDasharray="0 4 4"/></svg>}
+function LinuxIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FCC624" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C9 2 7 5 7 9c0 2 .5 3 1 4l-2 5c0 1 1 2 3 2h6c2 0 3-1 3-2l-2-5c.5-1 1-2 1-4 0-4-2-7-5-7z"/><circle cx="10" cy="8" r="0.8" fill="#FCC624"/><circle cx="14" cy="8" r="0.8" fill="#FCC624"/><path d="M10 11c0 1 1 1.5 2 1.5s2-.5 2-1.5"/></svg>}
+function GitIcon(){return<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F05032" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4"/><path d="M12 12c-3 0-6 3-6 6"/><path d="M12 12c3 0 6 3 6 6"/></svg>}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Particle Canvas
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function ParticleSystem(){
+  useEffect(()=>{
+    const canvas=document.getElementById('particles-canvas');
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    let w,h,particles=[],raf;
+    const resize=()=>{w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight};
+    resize();window.addEventListener('resize',resize);
+    for(let i=0;i<60;i++){
+      particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5});
+    }
+    const draw=()=>{
+      ctx.clearRect(0,0,w,h);
+      particles.forEach((p,i)=>{
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.6)';ctx.fill();
+        for(let j=i+1;j<particles.length;j++){
+          const dx=p.x-particles[j].x,dy=p.y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(255,255,255,${0.15*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.stroke()}
+        }
+      });
+      raf=requestAnimationFrame(draw);
+    };
+    draw();
+    return()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',resize)};
+  },[]);
+  return null;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Custom Cursor with Glow Trail
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function CustomCursor(){
+  const dotRef=useRef(null),ringRef=useRef(null);
+  const mouse=useRef({x:0,y:0}),ring=useRef({x:0,y:0});
+  const trails=useRef([]);
+  const canvasRef=useRef(null);
+  useEffect(()=>{
+    if(window.matchMedia('(hover:none)').matches)return;
+    const onMove=e=>{mouse.current={x:e.clientX,y:e.clientY}};
+    const onOver=e=>{
+      const t=e.target.closest('a,button,[data-magnetic]');
+      if(t&&ringRef.current){ringRef.current.style.width='56px';ringRef.current.style.height='56px';ringRef.current.style.borderColor='rgba(255,255,255,0.7)'}
+    };
+    const onOut=e=>{
+      if(ringRef.current){ringRef.current.style.width='40px';ringRef.current.style.height='40px';ringRef.current.style.borderColor='rgba(255,255,255,0.4)'}
+    };
+    window.addEventListener('mousemove',onMove);
+    document.addEventListener('mouseover',onOver);
+    document.addEventListener('mouseout',onOut);
+    const canvas=canvasRef.current;
+    const ctx=canvas?canvas.getContext('2d'):null;
+    const resizeCanvas=()=>{if(canvas){canvas.width=window.innerWidth;canvas.height=window.innerHeight}};
+    resizeCanvas();window.addEventListener('resize',resizeCanvas);
+    let raf;
+    const loop=()=>{
+      const m=mouse.current;
+      ring.current.x+=(m.x-ring.current.x)*0.12;
+      ring.current.y+=(m.y-ring.current.y)*0.12;
+      if(dotRef.current){dotRef.current.style.left=(m.x-4)+'px';dotRef.current.style.top=(m.y-4)+'px'}
+      if(ringRef.current){ringRef.current.style.left=(ring.current.x-20)+'px';ringRef.current.style.top=(ring.current.y-20)+'px'}
+      trails.current.push({x:m.x,y:m.y,life:1});
+      if(trails.current.length>30)trails.current.shift();
+      if(ctx&&canvas){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        trails.current.forEach((t,i)=>{
+          t.life-=0.04;
+          if(t.life>0){ctx.beginPath();ctx.arc(t.x,t.y,t.life*12,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${t.life*0.08})`;ctx.fill()}
+        });
+        trails.current=trails.current.filter(t=>t.life>0);
+      }
+      raf=requestAnimationFrame(loop);
+    };
+    loop();
+    return()=>{cancelAnimationFrame(raf);window.removeEventListener('mousemove',onMove);document.removeEventListener('mouseover',onOver);document.removeEventListener('mouseout',onOut);window.removeEventListener('resize',resizeCanvas)};
+  },[]);
+  if(typeof window!=='undefined'&&window.matchMedia('(hover:none)').matches)return null;
+  return(
+    <>
+      <canvas ref={canvasRef} style={{position:'fixed',inset:0,zIndex:9996,pointerEvents:'none'}}/>
+      <div ref={dotRef} className="cursor-dot"/>
+      <div ref={ringRef} className="cursor-ring"/>
+    </>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   Loading Screen Controller
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function LoadingScreen(){
+  useEffect(()=>{
+    const loader=document.getElementById('loader');
+    const authText=document.getElementById('auth-text');
+    const accessEl=document.getElementById('access-granted');
+    const barFill=document.getElementById('auth-bar-fill');
+    if(!loader||!authText)return;
+
+    const AUTH_MSG='Authenticating user...  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ  100%';
+    let i=0,barW=0,rafBar,dismissed=false;
+
+    /* Animate progress bar in parallel */
+    const startTime=performance.now();
+    const barDuration=1800;
+    const animBar=now=>{
+      const p=Math.min((now-startTime)/barDuration,1);
+      barW=p*100;
+      if(barFill)barFill.style.width=barW+'%';
+      if(p<1)rafBar=requestAnimationFrame(animBar);
+    };
+    rafBar=requestAnimationFrame(animBar);
+
+    /* Typewriter for auth message */
+    const typeTimer=setInterval(()=>{
+      if(i<=AUTH_MSG.length){
+        authText.textContent=AUTH_MSG.slice(0,i)+(i<AUTH_MSG.length?'â–Œ':'');
+        i++;
+      } else {
+        clearInterval(typeTimer);
+        /* Show Access Granted */
+        setTimeout(()=>{
+          authText.textContent='Identity Verified âœ“';
+          authText.style.color='rgba(110,231,183,0.9)';
+          setTimeout(()=>{
+            if(accessEl)accessEl.classList.add('show');
+            setTimeout(()=>{
+              if(!dismissed){
+                dismissed=true;
+                loader.classList.add('hide');
+                setTimeout(()=>{if(loader.parentNode)loader.parentNode.removeChild(loader);},1000);
+              }
+            },900);
+          },300);
+        },200);
+      }
+    },38);
+
+    return()=>{
+      clearInterval(typeTimer);
+      if(rafBar)cancelAnimationFrame(rafBar);
+    };
+  },[]);
+  return null;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LiveClock â€” IST time + system status
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function LiveClock(){
+  const[time,setTime]=useState('');
+  const[date,setDate]=useState('');
+  useEffect(()=>{
+    const tick=()=>{
+      const now=new Date();
+      const opts={timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true};
+      const dOpts={timeZone:'Asia/Kolkata',weekday:'short',month:'short',day:'numeric'};
+      setTime(now.toLocaleTimeString('en-IN',opts).toUpperCase());
+      setDate(now.toLocaleDateString('en-IN',dOpts).toUpperCase());
+    };
+    tick();
+    const id=setInterval(tick,1000);
+    return()=>clearInterval(id);
+  },[]);
+  return(
+    <div style={{position:'fixed',top:20,right:24,zIndex:49,display:'flex',flexDirection:'column',alignItems:'flex-end',gap:3,pointerEvents:'none'}}>
+      <div style={{display:'flex',alignItems:'center',gap:6}}>
+        <span style={{width:6,height:6,borderRadius:'50%',background:'#6ee7b7',boxShadow:'0 0 8px #6ee7b7',display:'inline-block',animation:'pulse-dot 2s ease-in-out infinite'}}></span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',letterSpacing:'0.15em',color:'rgba(110,231,183,0.85)',textTransform:'uppercase'}}>SYSTEM ONLINE</span>
+      </div>
+      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.72rem',letterSpacing:'0.1em',color:'rgba(255,255,255,0.75)'}}>{time} IST</span>
+      <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',letterSpacing:'0.1em',color:'rgba(255,255,255,0.3)'}}>{date}</span>
+    </div>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   GhostCursors â€” real BroadcastChannel
+   sync + 2 simulated ghost visitors
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const GHOST_NAMES=['v_0x7f','anon_42','dev_k9','user_rx','guest_77','r_watcher'];
+const GHOST_COLORS=['#6ee7b7','#a78bfa','#67e8f9','#fb923c'];
+
+function GhostCursors(){
+  const myId=useRef(Math.random().toString(36).substr(2,5));
+  const [peers,setPeers]=useState({});
+  const [simCursors,setSimCursors]=useState([]);
+  const [onlineCount,setOnlineCount]=useState(()=>Math.floor(Math.random()*6)+2);
+  const ch=useRef(null);
+
+  /* BroadcastChannel â€” real cross-tab sync */
+  useEffect(()=>{
+    if(!window.BroadcastChannel)return;
+    const name=GHOST_NAMES[Math.floor(Math.random()*GHOST_NAMES.length)];
+    const color=GHOST_COLORS[Math.floor(Math.random()*GHOST_COLORS.length)];
+    ch.current=new BroadcastChannel('rishi-portfolio-live');
+    ch.current.onmessage=e=>{
+      const{id,x,y,n,c,gone}=e.data;
+      if(id===myId.current)return;
+      setPeers(prev=>{
+        if(gone){const nx={...prev};delete nx[id];return nx;}
+        return{...prev,[id]:{x,y,n,c,id}};
+      });
+    };
+    const onMove=e=>{
+      if(!ch.current)return;
+      ch.current.postMessage({id:myId.current,x:e.clientX/window.innerWidth,y:e.clientY/window.innerHeight,n:name,c:color});
+    };
+    window.addEventListener('mousemove',onMove);
+    window.addEventListener('beforeunload',()=>ch.current&&ch.current.postMessage({id:myId.current,gone:true}));
+    return()=>{window.removeEventListener('mousemove',onMove);if(ch.current)ch.current.close();};
+  },[]);
+
+  /* Simulated ghost visitors */
+  useEffect(()=>{
+    const ghosts=[
+      {id:'sim_a',name:'anon_42',color:'#a78bfa',delay:1200},
+      {id:'sim_b',name:'v_0x7f',color:'#6ee7b7',delay:3500},
+    ];
+    const states={};
+    const targets={};
+    const W=()=>window.innerWidth;
+    const H=()=>window.innerHeight;
+    const randTarget=()=>({x:0.1+Math.random()*0.8,y:0.1+Math.random()*0.8});
+    ghosts.forEach(g=>{
+      states[g.id]={x:Math.random(),y:Math.random(),active:false};
+      targets[g.id]=randTarget();
+    });
+    const timers=[];
+    ghosts.forEach(g=>{
+      timers.push(setTimeout(()=>{
+        states[g.id].active=true;
+        const changeTarget=()=>{
+          targets[g.id]=randTarget();
+          timers.push(setTimeout(changeTarget,2000+Math.random()*4000));
+        };
+        changeTarget();
+      },g.delay));
+    });
+    let raf;
+    const tick=()=>{
+      ghosts.forEach(g=>{
+        if(!states[g.id].active)return;
+        const s=states[g.id],t=targets[g.id];
+        s.x+=(t.x-s.x)*0.018;
+        s.y+=(t.y-s.y)*0.018;
+      });
+      setSimCursors(ghosts.filter(g=>states[g.id].active).map(g=>({...g,x:states[g.id].x,y:states[g.id].y})));
+      raf=requestAnimationFrame(tick);
+    };
+    raf=requestAnimationFrame(tick);
+    return()=>{cancelAnimationFrame(raf);timers.forEach(clearTimeout);};
+  },[]);
+
+  const allCursors=[...Object.values(peers),...simCursors];
+  const total=onlineCount+Object.keys(peers).length;
+
+  return(
+    <>
+      {/* Visitor counter top-left */}
+      <div style={{position:'fixed',top:20,left:20,zIndex:49,display:'flex',alignItems:'center',gap:8,pointerEvents:'none'}}>
+        <div style={{display:'flex',alignItems:'center',gap:5,background:'rgba(0,0,0,0.5)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:9999,padding:'5px 10px',backdropFilter:'blur(8px)'}}>
+          <span style={{width:6,height:6,borderRadius:'50%',background:'#6ee7b7',boxShadow:'0 0 8px #6ee7b7',display:'inline-block',animation:'pulse-dot 2s ease-in-out infinite'}}></span>
+          <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',letterSpacing:'0.12em',color:'rgba(255,255,255,0.6)'}}>{total} ONLINE</span>
+        </div>
+      </div>
+      {/* Render all cursors */}
+      {allCursors.map(c=>(
+        <div key={c.id} style={{position:'fixed',left:c.x*window.innerWidth,top:c.y*window.innerHeight,zIndex:9990,pointerEvents:'none',transform:'translate(-2px,-2px)'}}>
+          <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
+            <path d="M0 0L0 16L4 12L7 20L10 19L7 11L12 11Z" fill={c.color} fillOpacity="0.9" stroke="rgba(0,0,0,0.4)" strokeWidth="1"/>
+          </svg>
+          <div style={{marginTop:2,marginLeft:14,background:'rgba(0,0,0,0.75)',border:`1px solid ${c.color}55`,borderRadius:4,padding:'2px 6px',fontSize:'0.6rem',fontFamily:'JetBrains Mono,monospace',color:c.color,whiteSpace:'nowrap'}}>{c.n||c.name}</div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ClassifiedReveal â€” locked overlay that
+   sweeps away when section scrolls in
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function ClassifiedReveal({children,label='CLASSIFIED'}){
+  const ref=useRef(null);
+  const [unlocked,setUnlocked]=useState(false);
+  const [sweeping,setSweeping]=useState(false);
+  useEffect(()=>{
+    const obs=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting&&!unlocked){
+        setSweeping(true);
+        setTimeout(()=>setUnlocked(true),700);
+        obs.disconnect();
+      }
+    },{threshold:0.25});
+    if(ref.current)obs.observe(ref.current);
+    return()=>obs.disconnect();
+  },[unlocked]);
+  return(
+    <div ref={ref} style={{position:'relative',overflow:'hidden'}}>
+      {children}
+      {!unlocked&&(
+        <div style={
+          {position:'absolute',inset:0,zIndex:20,background:sweeping?'transparent':'rgba(0,0,0,0.88)',
+          display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,
+          transition:'background 0.5s ease',backdropFilter:sweeping?'none':'blur(4px)'}
+        }>
+          {/* Sweep line */}
+          {sweeping&&<div style={{position:'absolute',inset:0,background:'linear-gradient(90deg,transparent 0%,rgba(110,231,183,0.15) 50%,transparent 100%)',animation:'sweep-reveal 0.7s ease forwards'}}/>}
+          {!sweeping&&(
+            <>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',letterSpacing:'0.3em',color:'rgba(255,255,255,0.25)',textTransform:'uppercase'}}>â¬›â¬›â¬› {label} â¬›â¬›â¬›</div>
+              <div style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'2rem',color:'rgba(255,255,255,0.5)',letterSpacing:'-1px'}}>Access Restricted.</div>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'rgba(110,231,183,0.5)',letterSpacing:'0.15em',animation:'pulse-dot 2s ease-in-out infinite'}}>â–¼ SCROLL TO UNLOCK â–¼</div>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Export all to window for sections.js */
+window.FadingVideo=FadingVideo;window.BlurText=BlurText;window.ScrollReveal=ScrollReveal;
+window.AnimatedCounter=AnimatedCounter;window.MagneticButton=MagneticButton;
+window.ArrowUpRight=ArrowUpRight;window.PlayIcon=PlayIcon;window.ClockIcon=ClockIcon;
+window.GlobeIcon=GlobeIcon;window.ImgIcon=ImgIcon;window.MovIcon=MovIcon;window.BulbIcon=BulbIcon;
+window.ChevronDown=ChevronDown;
+window.ReactIcon=ReactIcon;window.NodeIcon=NodeIcon;window.PythonIcon=PythonIcon;
+window.NextIcon=NextIcon;window.LinuxIcon=LinuxIcon;window.GitIcon=GitIcon;
+window.ParticleSystem=ParticleSystem;window.CustomCursor=CustomCursor;
+window.LoadingScreen=LoadingScreen;window.LiveClock=LiveClock;
+window.GhostCursors=GhostCursors;window.ClassifiedReveal=ClassifiedReveal;
+
+const {motion, AnimatePresence} = window.Motion;
+const {useRef, useEffect, useState, useCallback} = React;
+const sv = {hidden:{opacity:0,y:40,filter:'blur(6px)'},visible:{opacity:1,y:0,filter:'blur(0px)'}};
+
+/* â”€â”€ Navbar â”€â”€ */
+function Navbar(){
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(()=>{
+    const h=()=>setScrolled(window.scrollY>40);
+    window.addEventListener('scroll',h);return()=>window.removeEventListener('scroll',h);
+  },[]);
+  return(
+    <nav style={{position:'fixed',top:16,left:0,right:0,padding:'0 4rem',zIndex:50,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <div className="liquid-glass" style={{width:48,height:48,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',transition:'box-shadow 0.3s',boxShadow:scrolled?'0 0 20px rgba(255,255,255,0.15)':''}}>
+        <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'1.25rem',color:'#fff'}}>r</span>
+      </div>
+      <div className="liquid-glass" style={{borderRadius:9999,padding:'6px 6px',display:'flex',alignItems:'center',gap:0}}>
+        {['Home','Projects','Skills','Terminal','Journey','About','Contact'].map(l=>(
+          <a key={l} href={'#'+l.toLowerCase()} style={{padding:'8px 12px',fontSize:'0.8rem',fontWeight:500,color:'rgba(255,255,255,0.85)',fontFamily:'Barlow,sans-serif',textDecoration:'none',transition:'color 0.2s'}}
+            onMouseEnter={e=>e.target.style.color='#fff'} onMouseLeave={e=>e.target.style.color='rgba(255,255,255,0.85)'}>{l}</a>
+        ))}
+        <MagneticButton href="mailto:i.rishisharma2007@gmail.com"
+          style={{background:'#fff',color:'#000',borderRadius:9999,padding:'8px 16px',fontSize:'0.8rem',fontWeight:600,fontFamily:'Barlow,sans-serif',whiteSpace:'nowrap',marginLeft:4,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:4,border:'none',cursor:'none'}}>
+          Hire Me <ArrowUpRight style={{width:14,height:14}}/>
+        </MagneticButton>
+      </div>
+      <div style={{width:48,height:48}}/>
+    </nav>
+  );
+}
+
+/* â”€â”€ Hero â”€â”€ */
+function HeroSection(){
+  return(
+    <section id="home" style={{position:'relative',height:'100vh',background:'#000',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <FadingVideo src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
+        style={{position:'absolute',left:'50%',top:0,transform:'translateX(-50%)',width:'120%',height:'120%',objectFit:'cover',objectPosition:'top',zIndex:0}}/>
+      <div className="video-overlay"/>
+      <div style={{position:'relative',zIndex:10,display:'flex',flexDirection:'column',height:'100%'}}>
+        <Navbar/>
+        <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',paddingTop:96,paddingLeft:16,paddingRight:16,textAlign:'center'}}>
+          <motion.div initial={{filter:'blur(10px)',opacity:0,y:20}} animate={{filter:'blur(0px)',opacity:1,y:0}} transition={{duration:0.8,delay:0.4,ease:'easeOut'}}
+            className="liquid-glass" style={{borderRadius:9999,display:'inline-flex',alignItems:'center',gap:8,paddingRight:12,marginBottom:32}}>
+            <span style={{background:'#fff',color:'#000',borderRadius:9999,padding:'4px 12px',fontSize:'0.7rem',fontWeight:700,fontFamily:'Barlow,sans-serif'}}>2026</span>
+            <span style={{fontSize:'0.82rem',color:'rgba(255,255,255,0.9)',fontFamily:'Barlow,sans-serif'}}>BCA Student Â· Builder Â· Cybersecurity Enthusiast</span>
+          </motion.div>
+          <BlurText text="Building the Future One Line of Code"
+            style={{display:'flex',flexWrap:'wrap',justifyContent:'center',rowGap:'0.1em',fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(3rem,8vw,5.5rem)',lineHeight:0.85,letterSpacing:'-4px',maxWidth:'720px'}}/>
+          <motion.p initial={{filter:'blur(10px)',opacity:0,y:20}} animate={{filter:'blur(0px)',opacity:1,y:0}} transition={{duration:0.8,delay:0.8,ease:'easeOut'}}
+            style={{marginTop:20,fontSize:'0.9rem',color:'rgba(255,255,255,0.92)',maxWidth:560,fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.55,textShadow:'0 2px 12px rgba(0,0,0,0.8)'}}>
+            Hi, I'm Rishi Sharma â€” a BCA student passionate about building real-world applications, ethical hacking, and cybersecurity. From load balancers to full-stack platforms, I turn ideas into impact.
+          </motion.p>
+          <motion.div initial={{filter:'blur(10px)',opacity:0,y:20}} animate={{filter:'blur(0px)',opacity:1,y:0}} transition={{duration:0.8,delay:1.1,ease:'easeOut'}}
+            style={{display:'flex',alignItems:'center',gap:24,marginTop:28}}>
+            <MagneticButton href="mailto:i.rishisharma2007@gmail.com" className="liquid-glass-strong"
+              style={{borderRadius:9999,padding:'10px 20px',fontSize:'0.85rem',fontWeight:500,color:'#fff',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none',cursor:'none'}}>
+              Get in Touch <ArrowUpRight style={{width:18,height:18}}/>
+            </MagneticButton>
+            <MagneticButton href="#projects"
+              style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:'0.85rem',color:'#fff',fontFamily:'Barlow,sans-serif',fontWeight:500,textDecoration:'none',cursor:'none'}}>
+              View Projects <PlayIcon style={{width:14,height:14}}/>
+            </MagneticButton>
+          </motion.div>
+          <motion.div initial={{filter:'blur(10px)',opacity:0,y:20}} animate={{filter:'blur(0px)',opacity:1,y:0}} transition={{duration:0.8,delay:1.3,ease:'easeOut'}}
+            style={{display:'flex',gap:16,marginTop:32}}>
+            {[
+              {Icon:ClockIcon,val:'5+',label:'Projects Built'},
+              {Icon:GlobeIcon,val:'7',label:'Hackathons'},
+            ].map(({Icon,val,label},i)=>(
+              <div key={i} className="liquid-glass" style={{borderRadius:'1.25rem',padding:20,width:200,display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
+                <Icon/><span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'2.2rem',letterSpacing:'-1px',lineHeight:1,color:'#fff',marginTop:12}}>{val}</span>
+                <span style={{fontSize:'0.72rem',color:'rgba(255,255,255,0.8)',fontFamily:'Barlow,sans-serif',fontWeight:300,marginTop:6}}>{label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        <motion.div initial={{filter:'blur(10px)',opacity:0,y:20}} animate={{filter:'blur(0px)',opacity:1,y:0}} transition={{duration:0.8,delay:1.4,ease:'easeOut'}}
+          style={{display:'flex',flexDirection:'column',alignItems:'center',gap:16,paddingBottom:32}}>
+          <span className="liquid-glass" style={{borderRadius:9999,padding:'4px 14px',fontSize:'0.72rem',fontWeight:500,color:'#fff',fontFamily:'Barlow,sans-serif'}}>Technologies &amp; interests that drive my work</span>
+          <div style={{display:'flex',alignItems:'center',gap:48}}>
+            {['React','Node','Python','Cyber','Linux'].map(n=>(
+              <span key={n} style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(1.1rem,3vw,1.6rem)',letterSpacing:'-0.5px'}}>{n}</span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ Capabilities / Projects â”€â”€ */
+const cards=[
+  {I:ImgIcon,t:'EvacSync',tags:['Full Stack','React','Node.js','Real-Time'],d:'A complete evacuation-management platform with live dashboards, role-based access, and real-time sync across devices.'},
+  {I:MovIcon,t:'Load Balancer',tags:['CBSE Approved','UP Board','Scalable','Production'],d:'Full load-balancer app approved for CBSE & UP Board â€” traffic distribution, health checks, and failover handling.'},
+  {I:BulbIcon,t:'Cybersecurity',tags:['Ethical Hacking','Pen Testing','CTF','Network Sec'],d:'Actively exploring penetration testing, CTF challenges, and network security analysis as core learning focus.'}
+];
+
+function CapSection(){
+  return(
+    <section id="projects" style={{position:'relative',minHeight:'100vh',background:'#000',overflow:'hidden'}}>
+      <FadingVideo src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4"
+        style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',zIndex:0}}/>
+      <div className="video-overlay"/>
+      <div style={{position:'relative',zIndex:10,padding:'96px 5rem 40px',display:'flex',flexDirection:'column',minHeight:'100vh'}}>
+        <div style={{marginBottom:'auto'}}>
+          <ScrollReveal delay={0.1}>
+            <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.7)',marginBottom:20,textShadow:'0 2px 8px rgba(0,0,0,0.9)'}}>// What I Build</p>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2}>
+            <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(3.5rem,8vw,6rem)',lineHeight:0.9,letterSpacing:'-3px',textShadow:'0 4px 24px rgba(0,0,0,0.9)'}}>Projects<br/>&amp; Skills</h2>
+          </ScrollReveal>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24,marginTop:64}}>
+          {cards.map((c,i)=>(
+            <ScrollReveal key={i} delay={0.15*i}>
+              <div className="liquid-glass" style={{borderRadius:'1.25rem',padding:24,minHeight:360,display:'flex',flexDirection:'column',height:'100%'}}>
+                <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12}}>
+                  <div className="liquid-glass" style={{borderRadius:12,width:44,height:44,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><c.I/></div>
+                  <div style={{display:'flex',flexWrap:'wrap',justifyContent:'flex-end',gap:6,maxWidth:'70%'}}>
+                    {c.tags.map(t=><span key={t} className="liquid-glass" style={{borderRadius:9999,padding:'4px 10px',fontSize:'0.68rem',color:'rgba(255,255,255,0.85)',fontFamily:'Barlow,sans-serif',whiteSpace:'nowrap'}}>{t}</span>)}
+                  </div>
+                </div>
+                <div style={{flex:1}}/>
+                <div style={{marginTop:24}}>
+                  <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'2rem',letterSpacing:'-1px',lineHeight:1}}>{c.t}</h3>
+                  <p style={{marginTop:10,fontSize:'0.82rem',color:'rgba(255,255,255,0.85)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.55,maxWidth:'28ch'}}>{c.d}</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+          <ClassifiedCard/>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ Classified Card â”€â”€ */
+const REDACTED_LINES=[
+  'â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ  v2.0-alpha',
+  'Stack:  â–ˆâ–ˆâ–ˆâ–ˆ / â–ˆâ–ˆâ–ˆâ–ˆâ–ˆ / â–ˆâ–ˆâ–ˆ',
+  'Status: Active deployment',
+  'Access: CLEARANCE REQUIRED',
+];
+
+function ClassifiedCard(){
+  const[revealed,setRevealed]=useState(false);
+  const[glitching,setGlitching]=useState(false);
+  const[scanline,setScanline]=useState(0);
+
+  const handleClick=()=>{
+    if(revealed)return;
+    setGlitching(true);
+    let s=0;
+    const id=setInterval(()=>{setScanline(s++);if(s>12){clearInterval(id);setGlitching(false);setRevealed(true);}},60);
+  };
+
+  return(
+    <ScrollReveal delay={0.45}>
+      <div className="liquid-glass" onClick={handleClick}
+        style={{borderRadius:'1.25rem',padding:24,minHeight:360,display:'flex',flexDirection:'column',cursor:revealed?'default':'none',position:'relative',overflow:'hidden',
+          border:revealed?'none':'1px solid rgba(255,60,60,0.15)',transition:'border 0.5s'}}>
+
+        {/* Scanline sweep during glitch */}
+        {glitching&&<div style={{position:'absolute',left:0,right:0,height:3,background:'rgba(110,231,183,0.6)',top:(scanline/12)*100+'%',transition:'top 0.06s linear',zIndex:5,boxShadow:'0 0 12px #6ee7b7'}}/>}
+
+        {!revealed?(
+          /* LOCKED state */
+          <>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+              <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                {['CRYPTO','STEALTH','v2.0'].map(t=>(
+                  <span key={t} style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',letterSpacing:'0.15em',color:'rgba(255,60,60,0.7)',background:'rgba(255,60,60,0.06)',border:'1px solid rgba(255,60,60,0.15)',borderRadius:4,padding:'2px 8px',display:'inline-block'}}>{t}</span>
+                ))}
+              </div>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',color:'rgba(255,255,255,0.2)',textAlign:'right',lineHeight:1.8}}>
+                {REDACTED_LINES.map((l,i)=><div key={i}>{l}</div>)}
+              </div>
+            </div>
+            <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:12,marginTop:16}}>
+              <div style={{width:40,height:40,border:'1.5px solid rgba(255,60,60,0.4)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,60,60,0.7)" strokeWidth="2" strokeLinecap="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',letterSpacing:'0.25em',color:'rgba(255,60,60,0.6)',textAlign:'center'}}>[ CLASSIFIED PROJECT ]</div>
+              <div style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'1.5rem',color:'rgba(255,255,255,0.4)',letterSpacing:'-0.5px'}}>Access Restricted.</div>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'rgba(255,255,255,0.25)',letterSpacing:'0.1em'}}>CLEARANCE LEVEL: NONE</div>
+            </div>
+            <motion.div animate={{opacity:[0.4,1,0.4]}} transition={{duration:2,repeat:Infinity}}
+              style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.65rem',color:'rgba(255,60,60,0.5)',letterSpacing:'0.15em',textAlign:'center',marginTop:12}}>â–¶ CLICK TO REQUEST ACCESS â—€</motion.div>
+          </>
+        ):(
+          /* REVEALED state */
+          <motion.div initial={{opacity:0,filter:'blur(8px)'}} animate={{opacity:1,filter:'blur(0px)'}} transition={{duration:0.6}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',letterSpacing:'0.2em',color:'#6ee7b7'}}>ACCESS GRANTED âœ“</div>
+              {['Stealth','React','Node'].map(t=><span key={t} className="liquid-glass" style={{borderRadius:9999,padding:'3px 10px',fontSize:'0.65rem',color:'rgba(255,255,255,0.7)',fontFamily:'Barlow,sans-serif'}}>{t}</span>)}
+            </div>
+            <div style={{flex:1,marginTop:8}}>
+              <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'2rem',letterSpacing:'-1px',lineHeight:1}}>Project Phantom</h3>
+              <p style={{marginTop:10,fontSize:'0.82rem',color:'rgba(255,255,255,0.8)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.6}}>
+                A stealth-mode platform currently in active development. Full-stack architecture with encrypted data flows and zero-knowledge design patterns. <span style={{color:'#6ee7b7'}}>Shipping 2026.</span>
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </ScrollReveal>
+  );
+}
+
+window.Navbar=Navbar; window.HeroSection=HeroSection; window.CapSection=CapSection;
+window.ClassifiedCard=ClassifiedCard;
+
+const {motion, AnimatePresence} = window.Motion;
+const {useRef, useEffect, useState, useCallback} = React;
+
+/* â”€â”€ Tech Stack Section â”€â”€ */
+const techStack = [
+  {Icon:ReactIcon, name:'React',       color:'#61DAFB', level:85},
+  {Icon:NextIcon,  name:'Next.js',     color:'#fff',    level:70},
+  {Icon:NodeIcon,  name:'Node.js',     color:'#68A063', level:78},
+  {Icon:PythonIcon,name:'Python',      color:'#FFD43B', level:72},
+  {Icon:LinuxIcon, name:'Linux',       color:'#FCC624', level:80},
+  {Icon:GitIcon,   name:'Git',         color:'#F05032', level:88},
+];
+
+function TechSection(){
+  return(
+    <section id="skills" style={{position:'relative',background:'#000',padding:'100px 5rem'}}>
+      <ScrollReveal delay={0.1}>
+        <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// Tech Arsenal</p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(3rem,7vw,5.5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:64}}>My Stack</h2>
+      </ScrollReveal>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
+        {techStack.map((t,i)=>(
+          <ScrollReveal key={t.name} delay={0.08*i}>
+            <motion.div className="liquid-glass"
+              whileHover={{scale:1.03,boxShadow:`0 0 30px ${t.color}22`}}
+              transition={{duration:0.3}}
+              style={{borderRadius:'1.25rem',padding:24,display:'flex',flexDirection:'column',gap:16}}>
+              <div style={{display:'flex',alignItems:'center',gap:16}}>
+                <motion.div animate={{rotate:[0,5,-5,0]}} transition={{duration:4,repeat:Infinity,delay:i*0.5}}>
+                  <t.Icon/>
+                </motion.div>
+                <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'1.4rem',letterSpacing:'-0.5px'}}>{t.name}</span>
+              </div>
+              <div style={{background:'rgba(255,255,255,0.08)',borderRadius:9999,height:4,overflow:'hidden'}}>
+                <motion.div
+                  initial={{width:0}} whileInView={{width:t.level+'%'}} viewport={{once:true}}
+                  transition={{duration:1.2,delay:0.2+i*0.1,ease:'easeOut'}}
+                  style={{height:'100%',borderRadius:9999,background:`linear-gradient(90deg,${t.color}88,${t.color})`}}/>
+              </div>
+              <span style={{fontSize:'0.72rem',color:'rgba(255,255,255,0.5)',fontFamily:'Barlow,sans-serif',fontWeight:300}}>{t.level}% proficiency</span>
+            </motion.div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ Interactive Terminal â”€â”€ */
+const COMMANDS = {
+  whoami: ['Rishi Sharma','â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€','Role     : BCA Student, Year 2','Focus    : Full-Stack Dev + Cybersecurity','School   : Aggarwal Public School (CBSE)','College  : BCA General CS (2025 â€“ Present)','Dream    : Multi-national business empire ðŸš€'],
+  'skills --list': ['SKILL              LEVEL','â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€','React / Next.js    â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘  85%','Node.js            â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘â–‘  78%','Python             â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘â–‘  72%','Linux              â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘  80%','Ethical Hacking    â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘â–‘â–‘â–‘  65%','Git / DevOps       â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–‘  88%'],
+  'projects --count': ['PROJECTS SHIPPED  : 5','HACKATHONS        : 7','NOTABLE           : EvacSync, Load Balancer App','STATUS            : 2 more in stealth mode... ðŸ•µï¸'],
+  help: ['Available commands:','  whoami          â€” about me','  skills --list   â€” tech proficiency','  projects --count â€” project stats','  clear           â€” clear terminal'],
+  clear: ['__CLEAR__'],
+};
+
+const AUTOSEQ = ['whoami','skills --list','projects --count'];
+
+function Terminal(){
+  const [lines, setLines] = useState([]);
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+  const [autoIdx, setAutoIdx] = useState(0);
+  const [autoDone, setAutoDone] = useState(false);
+  const [cmdBuf, setCmdBuf] = useState('');
+  const ref = useRef(null);
+  const bodyRef = useRef(null);
+  const triggered = useRef(false);
+
+  const pushLines = useCallback((cmd, output) => {
+    if(output[0]==='__CLEAR__'){setLines([]);return;}
+    setLines(prev=>[...prev,{type:'cmd',text:`$ ${cmd}`},...output.map(t=>({type:'out',text:t}))]);
+  },[]);
+
+  const typeCmd = useCallback((cmd, onDone)=>{
+    setTyping(true); setCmdBuf('');
+    let i=0;
+    const t=setInterval(()=>{
+      setCmdBuf(cmd.slice(0,i+1)); i++;
+      if(i>=cmd.length){clearInterval(t);setTimeout(()=>{setTyping(false);setCmdBuf('');const out=COMMANDS[cmd]||[`command not found: ${cmd}`];pushLines(cmd,out);onDone&&onDone();},400);}
+    },60);
+    return()=>clearInterval(t);
+  },[pushLines]);
+
+  useEffect(()=>{
+    const obs=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting&&!triggered.current){triggered.current=true;obs.disconnect();
+        setTimeout(()=>typeCmd(AUTOSEQ[0],()=>{setAutoIdx(1);}),600);
+      }
+    },{threshold:0.3});
+    if(ref.current)obs.observe(ref.current);
+    return()=>obs.disconnect();
+  },[typeCmd]);
+
+  useEffect(()=>{
+    if(autoIdx===0||autoDone)return;
+    if(autoIdx>=AUTOSEQ.length){setAutoDone(true);return;}
+    const t=setTimeout(()=>typeCmd(AUTOSEQ[autoIdx],()=>setAutoIdx(i=>i+1)),800);
+    return()=>clearTimeout(t);
+  },[autoIdx,autoDone,typeCmd]);
+
+  useEffect(()=>{if(bodyRef.current)bodyRef.current.scrollTop=bodyRef.current.scrollHeight;},[lines,cmdBuf]);
+
+  const handleKey=e=>{
+    if(e.key==='Enter'&&input.trim()){
+      const cmd=input.trim().toLowerCase();
+      setInput('');
+      const out=COMMANDS[cmd]||[`command not found: ${cmd}`,'type "help" for available commands'];
+      pushLines(cmd,out);
+    }
+  };
+
+  return(
+    <section id="terminal" style={{position:'relative',background:'#000',padding:'80px 5rem'}}>
+      <ScrollReveal delay={0.1}>
+        <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// Interactive Terminal</p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:40}}>root@rishi:~$</h2>
+      </ScrollReveal>
+      <ScrollReveal delay={0.3}>
+        <div ref={ref} className="terminal-window" style={{maxWidth:760}}>
+          <div className="terminal-header">
+            <div className="terminal-dot" style={{background:'#ff5f57'}}/>
+            <div className="terminal-dot" style={{background:'#febc2e'}}/>
+            <div className="terminal-dot" style={{background:'#28c840'}}/>
+            <span style={{marginLeft:8,fontSize:'0.75rem',color:'rgba(255,255,255,0.4)',fontFamily:'JetBrains Mono,monospace'}}>rishi@portfolio ~ bash</span>
+          </div>
+          <div ref={bodyRef} className="terminal-body" style={{maxHeight:360,overflowY:'auto'}}>
+            <div style={{marginBottom:12,color:'rgba(255,255,255,0.5)',fontSize:'0.8rem'}}>Welcome to Rishi's terminal. Commands auto-run, or type your own.</div>
+            {lines.map((l,i)=>(
+              <div key={i} style={{color:l.type==='cmd'?'#6ee7b7':'rgba(255,255,255,0.75)'}}>{l.text}</div>
+            ))}
+            {typing&&<div className="t-green">{`$ ${cmdBuf}`}<span className="cursor-blink"/></div>}
+            {!typing&&(
+              <div style={{display:'flex',alignItems:'center',gap:4,marginTop:4}}>
+                <span className="t-green">$</span>
+                <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={handleKey}
+                  placeholder="type a command..." autoComplete="off" spellCheck="false"
+                  style={{background:'transparent',border:'none',outline:'none',color:'rgba(255,255,255,0.9)',fontFamily:'JetBrains Mono,monospace',fontSize:'13px',flex:1,caretColor:'#6ee7b7',cursor:'none'}}/>
+                <span className="cursor-blink"/>
+              </div>
+            )}
+          </div>
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+}
+
+/* â”€â”€ Stats Section â”€â”€ */
+const stats=[
+  {val:5,suffix:'+',label:'Projects Shipped',sub:'Real-world production apps'},
+  {val:7,suffix:'',label:'Hackathons',sub:'Competed & built under pressure'},
+  {val:2,suffix:'',label:'Board Approvals',sub:'CBSE & UP Board approved'},
+  {val:2025,suffix:'',label:'Year Started BCA',sub:'Aggarwal Public School â†’ BCA'},
+];
+
+function StatsSection(){
+  return(
+    <section style={{position:'relative',background:'#000',padding:'80px 5rem'}}>
+      <ScrollReveal delay={0.1}>
+        <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// By the Numbers</p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:48}}>Impact So Far</h2>
+      </ScrollReveal>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:20}}>
+        {stats.map((s,i)=>(
+          <ScrollReveal key={i} delay={0.1*i}>
+            <div className="liquid-glass" style={{borderRadius:'1.25rem',padding:28,position:'relative',overflow:'hidden'}}>
+              <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 50% 0%,rgba(255,255,255,0.04),transparent 70%)',pointerEvents:'none'}}/>
+              <div style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'3.2rem',letterSpacing:'-2px',color:'#fff',lineHeight:1}}>
+                <AnimatedCounter end={s.val} suffix={s.suffix} duration={2000}/>
+              </div>
+              <div style={{marginTop:8,fontSize:'0.9rem',color:'#fff',fontFamily:'Barlow,sans-serif',fontWeight:500}}>{s.label}</div>
+              <div style={{marginTop:4,fontSize:'0.75rem',color:'rgba(255,255,255,0.5)',fontFamily:'Barlow,sans-serif',fontWeight:300}}>{s.sub}</div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+window.TechSection=TechSection; window.Terminal=Terminal; window.StatsSection=StatsSection;
+
+const {motion, AnimatePresence} = window.Motion;
+const {useRef, useEffect, useState} = React;
+
+/* â”€â”€ Journey Timeline â”€â”€ */
+const journey = [
+  {year:'2023', title:'First Line of Code', desc:'Picked up programming â€” HTML, CSS, JavaScript. Built first pages and fell in love with the craft.', side:'left'},
+  {year:'2025', title:'Completed 12th Grade', desc:'Graduated from Aggarwal Public School, CBSE board. Decided to pursue BCA to go all-in on computer science.', side:'right'},
+  {year:'2025', title:'Joined BCA', desc:'Enrolled in BCA (General CS). Started exploring React, Node.js, and building real applications from day one.', side:'left'},
+  {year:'2026', title:'Built Load Balancer App', desc:'Engineered a complete load balancer approved for CBSE & UP Board â€” production-grade with health checks and failover.', side:'right'},
+  {year:'2026', title:'Launched EvacSync', desc:'Built and launched EvacSync â€” a full evacuation management platform with real-time sync, dashboards, and role-based access.', side:'left'},
+  {year:'2026', title:'Deep-Diving into Cybersecurity', desc:'Actively learning ethical hacking, penetration testing, CTF challenges, and network security. Building toward mastery.', side:'right'},
+  {year:'Now â†’', title:'Building What\'s Next', desc:'2nd year BCA underway. New projects, new skills, new domains. The empire is being built â€” one system at a time.', side:'left'},
+];
+
+function TimelineSection(){
+  return(
+    <section id="journey" style={{position:'relative',background:'#000',padding:'80px 5rem'}}>
+      <ScrollReveal delay={0.1}>
+        <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// The Journey</p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:64}}>How It Started</h2>
+      </ScrollReveal>
+      <div style={{position:'relative',maxWidth:800,margin:'0 auto'}}>
+        {/* Vertical line */}
+        <div style={{position:'absolute',left:'50%',top:0,bottom:0,width:2,background:'linear-gradient(to bottom,transparent,rgba(255,255,255,0.12),rgba(255,255,255,0.12),transparent)',transform:'translateX(-50%)'}}/>
+        {journey.map((j,i)=>(
+          <ScrollReveal key={i} delay={0.1*i}>
+            <div style={{display:'flex',justifyContent:j.side==='left'?'flex-start':'flex-end',marginBottom:40,position:'relative'}}>
+              {/* Dot */}
+              <div style={{position:'absolute',left:'50%',top:20,transform:'translateX(-50%)',width:14,height:14,borderRadius:'50%',background:'#fff',boxShadow:'0 0 16px rgba(255,255,255,0.4)',zIndex:2}}/>
+              {/* Card */}
+              <div className="liquid-glass"
+                style={{borderRadius:'1.25rem',padding:24,width:'44%',position:'relative'}}>
+                <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'rgba(255,255,255,0.4)',fontSize:'0.85rem',letterSpacing:'1px'}}>{j.year}</span>
+                <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'1.3rem',lineHeight:1.1,marginTop:4,letterSpacing:'-0.5px'}}>{j.title}</h3>
+                <p style={{marginTop:8,fontSize:'0.8rem',color:'rgba(255,255,255,0.7)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.6}}>{j.desc}</p>
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ About Section â”€â”€ */
+function AboutSection(){
+  return(
+    <section id="about" style={{position:'relative',background:'#000',padding:'80px 5rem'}}>
+      <div style={{maxWidth:760,margin:'0 auto'}}>
+        <ScrollReveal delay={0.1}>
+          <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// About Me</p>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:32}}>The Story<br/>So Far</h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.3}>
+          <div className="liquid-glass" style={{borderRadius:'1.25rem',padding:40}}>
+            <div style={{display:'flex',flexDirection:'column',gap:16,fontFamily:'Barlow,sans-serif',fontWeight:300,color:'rgba(255,255,255,0.85)',fontSize:'0.9rem',lineHeight:1.75}}>
+              <p>I'm <strong style={{fontWeight:600,color:'#fff'}}>Rishi Sharma</strong> â€” currently in my second year of BCA (General CS). I completed my 12th from <strong style={{fontWeight:600,color:'#fff'}}>Aggarwal Public School</strong>, affiliated with CBSE in 2025.</p>
+              <p>In 2026, during my first year at college, I built a <strong style={{fontWeight:600,color:'#fff'}}>load balancer application</strong> approved for CBSE and UP Board, and launched <strong style={{fontWeight:600,color:'#fff'}}>EvacSync</strong> â€” a full-featured evacuation management platform.</p>
+              <p>I'm deeply interested in <strong style={{fontWeight:600,color:'#fff'}}>ethical hacking and cybersecurity</strong> â€” exploring penetration testing, network security analysis, and CTF challenges as my next frontier.</p>
+              <p>My dream? To build a <strong style={{fontWeight:600,color:'#fff'}}>multi-national business empire</strong> â€” yes, the BMW is on the vision board. Always learning, always building.</p>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ FAQ Section â”€â”€ */
+const faqs = [
+  {q:'What technologies do you work with?', a:'I primarily work with React, Next.js, Node.js, and Python. On the infrastructure side, I use Linux, Git, and am comfortable with Docker basics. Cybersecurity tools are an ongoing area of exploration.'},
+  {q:"What is EvacSync?", a:'EvacSync is a full-stack evacuation management platform I built â€” featuring real-time data sync, live dashboards, role-based access control, and multi-device support. It handles emergency coordination scenarios.'},
+  {q:'Are you open to freelance or collaboration?', a:'Absolutely. Whether it\'s a startup, a project, or a hackathon team â€” reach out via email. I\'m always excited by interesting problems and ambitious builds.'},
+  {q:'What are your long-term goals?', a:'Building a multi-national tech business, mastering cybersecurity and ethical hacking, and contributing to impactful software at scale. The vision is big â€” and the work ethic matches it.'},
+  {q:'How can I contact you?', a:'Email: i.rishisharma2007@gmail.com | Instagram: @_rishi_sharma28 â€” response is usually quick.'},
+];
+
+function FAQ(){
+  const [open, setOpen] = useState(null);
+  return(
+    <section style={{position:'relative',background:'#000',padding:'80px 5rem 40px'}}>
+      <ScrollReveal delay={0.1}>
+        <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// Q&amp;A</p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:40}}>Questions &amp;<br/>Answers</h2>
+      </ScrollReveal>
+      <div style={{maxWidth:760,display:'flex',flexDirection:'column',gap:12}}>
+        {faqs.map((f,i)=>(
+          <ScrollReveal key={i} delay={0.08*i}>
+            <div className="liquid-glass" style={{borderRadius:'1.25rem',overflow:'hidden'}}>
+              <button onClick={()=>setOpen(open===i?null:i)}
+                style={{width:'100%',padding:'20px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',background:'transparent',border:'none',color:'#fff',cursor:'none',textAlign:'left',gap:16}}>
+                <span style={{fontFamily:'Barlow,sans-serif',fontWeight:500,fontSize:'0.92rem',lineHeight:1.4}}>{f.q}</span>
+                <motion.div animate={{rotate:open===i?180:0}} transition={{duration:0.3}}>
+                  <ChevronDown style={{flexShrink:0,opacity:0.6}}/>
+                </motion.div>
+              </button>
+              <AnimatePresence initial={false}>
+                {open===i&&(
+                  <motion.div key="ans" initial={{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}}
+                    transition={{duration:0.35,ease:'easeInOut'}} style={{overflow:'hidden'}}>
+                    <div style={{padding:'0 24px 20px',fontSize:'0.84rem',color:'rgba(255,255,255,0.75)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.7}}>
+                      {f.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* â”€â”€ Contact Footer â”€â”€ */
+function ContactSection(){
+  return(
+    <section id="contact" style={{position:'relative',background:'#000',padding:'60px 5rem 80px'}}>
+      <ScrollReveal delay={0.1}>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',maxWidth:600,margin:'0 auto'}}>
+          <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// Let's Connect</p>
+          <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px',marginBottom:40}}>Get in Touch</h2>
+          <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:16}}>
+            <MagneticButton href="mailto:i.rishisharma2007@gmail.com" className="liquid-glass-strong"
+              style={{borderRadius:9999,padding:'12px 24px',fontSize:'0.84rem',fontWeight:500,color:'#fff',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none',cursor:'none'}}>
+              i.rishisharma2007@gmail.com <ArrowUpRight style={{width:16,height:16}}/>
+            </MagneticButton>
+            <MagneticButton href="https://instagram.com/_rishi_sharma28" target="_blank" rel="noopener noreferrer" className="liquid-glass"
+              style={{borderRadius:9999,padding:'12px 24px',fontSize:'0.84rem',fontWeight:500,color:'#fff',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none',cursor:'none'}}>
+              @_rishi_sharma28 <ArrowUpRight style={{width:16,height:16}}/>
+            </MagneticButton>
+          </div>
+          <p style={{marginTop:48,fontSize:'0.72rem',color:'rgba(255,255,255,0.25)',fontFamily:'Barlow,sans-serif',fontWeight:300}}>
+            Â© 2026 Rishi Sharma. Built with ambition.
+          </p>
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+}
+
+/* â”€â”€ App Root â”€â”€ */
+function App(){
+  return(
+    <>
+      <LoadingScreen/>
+      <LiveClock/>
+      <GhostCursors/>
+      <ParticleSystem/>
+      <CustomCursor/>
+      <HeroSection/>
+      <CapSection/>
+      <TechSection/>
+      <Terminal/>
+      <StatsSection/>
+      <ClassifiedReveal label="JOURNEY DATA">
+        <TimelineSection/>
+      </ClassifiedReveal>
+      <ClassifiedReveal label="PERSONAL RECORD">
+        <AboutSection/>
+      </ClassifiedReveal>
+      <FAQ/>
+      <ContactSection/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+
+</script>
+<script>
+/* â”€â”€ Console Easter Egg â”€â”€ */
+console.log('%cðŸ‘€ Caught inspecting!', 'font-size:22px;font-weight:bold;color:#6ee7b7;font-family:monospace');
+console.log('%cNice try. Built by Rishi Sharma â€” BCA student turning caffeine into code.', 'color:rgba(255,255,255,0.75);font-family:monospace;font-size:13px;line-height:1.6');
+console.log('%cðŸ“¬ i.rishisharma2007@gmail.com  |  ðŸ“¸ @_rishi_sharma28', 'color:rgba(255,255,255,0.45);font-size:11px;font-family:monospace');
+console.log('%câ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€', 'color:rgba(255,255,255,0.15);font-family:monospace');
+console.log('%c  Want to hire me? That\'s the right instinct.', 'color:#6ee7b7;font-family:monospace;font-size:12px');
+
+/* â”€â”€ DevTools / Inspect Element Detector â”€â”€ */
+(function(){
+  var devOpen = false;
+  var threshold = 160;
+  var SHIELD_ID = 'devtools-shield';
+  var TOAST_ID  = 'devtools-toast';
+
+  function showShield(){
+    if(document.getElementById(SHIELD_ID)) return;
+    var shield = document.createElement('div');
+    shield.id = SHIELD_ID;
+    shield.style.cssText = 'position:fixed;inset:0;z-index:98000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;transition:opacity 0.35s ease';
+    var corners = {tl:'top:32px;left:32px;border-width:1px 0 0 1px',tr:'top:32px;right:32px;border-width:1px 1px 0 0',bl:'bottom:32px;left:32px;border-width:0 0 1px 1px',br:'bottom:32px;right:32px;border-width:0 1px 1px 0'};
+    Object.keys(corners).forEach(function(k){
+      var c=document.createElement('div');
+      c.style.cssText='position:absolute;width:24px;height:24px;border-color:rgba(255,255,255,0.25);border-style:solid;'+corners[k];
+      shield.appendChild(c);
+    });
+    var icon=document.createElement('div');
+    icon.textContent='ðŸ‘€';
+    icon.style.cssText='font-size:3rem';
+    shield.appendChild(icon);
+    var heading=document.createElement('div');
+    heading.textContent='Access Restricted.';
+    heading.style.cssText='font-family:"Instrument Serif",serif;font-style:italic;font-size:2.4rem;color:#fff;letter-spacing:-1px';
+    shield.appendChild(heading);
+    var sub=document.createElement('div');
+    sub.style.cssText='font-family:"JetBrains Mono",monospace;font-size:0.78rem;color:rgba(255,255,255,0.45);letter-spacing:0.06em;text-align:center;line-height:1.8';
+    sub.innerHTML='Close DevTools to continue.<br>Built by <span style="color:#6ee7b7">Rishi Sharma</span> &mdash; i.rishisharma2007@gmail.com';
+    shield.appendChild(sub);
+    var status=document.createElement('div');
+    status.style.cssText='font-family:"JetBrains Mono",monospace;font-size:0.6rem;color:rgba(255,255,255,0.18);letter-spacing:0.2em;margin-top:8px';
+    status.textContent='[ SECURITY PROTOCOL ACTIVE ]';
+    shield.appendChild(status);
+    document.body.appendChild(shield);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ shield.style.opacity='1'; }); });
+  }
+
+  function hideShield(){
+    var shield=document.getElementById(SHIELD_ID);
+    if(!shield)return;
+    shield.style.opacity='0';
+    setTimeout(function(){ if(shield.parentNode)shield.parentNode.removeChild(shield); },400);
+  }
+
+  function showToast(){
+    if(document.getElementById(TOAST_ID))return;
+    var toast=document.createElement('div');
+    toast.id=TOAST_ID;
+    toast.innerHTML='<span style="font-size:1.1rem">ðŸ‘€</span> <span>Caught you inspecting â€” <strong style="color:#6ee7b7">close DevTools</strong> to continue.</span>';
+    toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,10,10,0.97);border:1px solid rgba(110,231,183,0.35);color:rgba(255,255,255,0.9);padding:12px 24px;border-radius:9999px;font-family:JetBrains Mono,monospace;font-size:0.78rem;z-index:99999;display:flex;align-items:center;gap:10px;letter-spacing:0.02em;box-shadow:0 0 30px rgba(110,231,183,0.2);transition:opacity 0.4s ease,transform 0.4s ease;opacity:0';
+    document.body.appendChild(toast);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ toast.style.opacity='1';toast.style.transform='translateX(-50%) translateY(0)'; }); });
+  }
+
+  function removeToast(){
+    var toast=document.getElementById(TOAST_ID);
+    if(!toast)return;
+    toast.style.opacity='0';
+    toast.style.transform='translateX(-50%) translateY(20px)';
+    setTimeout(function(){ if(toast.parentNode)toast.parentNode.removeChild(toast); },500);
+  }
+
+  function onDevOpen(){ showShield(); showToast(); }
+  function onDevClose(){ hideShield(); removeToast(); devOpen=false; }
+
+  /* Method 1: window size delta (Chrome/Edge) */
+  function checkSize(){
+    var isOpen=(window.outerWidth-window.innerWidth>threshold)||(window.outerHeight-window.innerHeight>threshold);
+    if(isOpen&&!devOpen){ devOpen=true; onDevOpen(); }
+    else if(!isOpen&&devOpen){ onDevClose(); }
+  }
+  window.addEventListener('resize',checkSize);
+  setInterval(checkSize,800);
+
+  /* Method 2: toString trick (Firefox/Safari) */
+  var el=new Image();
+  Object.defineProperty(el,'id',{get:function(){ if(!devOpen){devOpen=true;onDevOpen();} }});
+  setInterval(function(){ console.log(el); console.clear(); },1500);
+})();
+</script>
+</body>
+</html>
+
