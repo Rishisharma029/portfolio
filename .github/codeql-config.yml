@@ -1,0 +1,23 @@
+name: "Portfolio CodeQL Config"
+
+disable-default-queries: false
+
+queries:
+  - uses: security-and-quality
+
+paths-ignore:
+  # Build artifacts — generated files, not source code
+  - "rishi-portfolio.html"
+  - "rishi-portfolio.zip"
+  - "screenshots/"
+  - "app.js"
+  - "components.js"
+  - "patch.js"
+
+paths:
+  # Only scan actual source files
+  - "core.js"
+  - "sec1.js"
+  - "sec2.js"
+  - "sec3.js"
+  - "index.html"

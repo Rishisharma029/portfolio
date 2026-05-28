@@ -1,5 +1,5 @@
-/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback — from core.js */
-const sv = {hidden:{opacity:0,y:40,filter:'blur(6px)'},visible:{opacity:1,y:0,filter:'blur(0px)'}};
+/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback, sv — from core.js */
+
 
 /* ── Navbar ── */
 function Navbar(){
