@@ -60,13 +60,13 @@ This portfolio is more than just a website — it's an interactive digital exper
 Clone the repository:
 
 ```bash id="b4i0q4"
-git clone https://github.com/your-username/your-repo-name.git
+https://github.com/Rishisharma029/portfolio.git
 ```
 
 Open the project folder:
 
 ```bash id="o0ks8h"
-cd your-repo-name
+cd https://github.com/Rishisharma029/portfolio.git
 ```
 
 Run locally:
