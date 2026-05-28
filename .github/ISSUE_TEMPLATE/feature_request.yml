@@ -1,0 +1,58 @@
+name: Feature Request
+description: Suggest a new feature or improvement
+title: "[FEATURE] "
+labels: ["enhancement", "needs-review"]
+assignees: ["Rishisharma029"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got an idea to make this portfolio even better? Describe it below!
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - New section / page
+        - Visual / animation improvement
+        - Performance optimization
+        - New easter egg / hidden feature
+        - Accessibility improvement
+        - Mobile / responsive fix
+        - Security enhancement
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Is your feature request related to a problem?
+      placeholder: "I'm frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: Clear and concise description of what you want
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you thought of?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues/discussions before opening this
+          required: true

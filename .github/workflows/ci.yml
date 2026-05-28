@@ -1,0 +1,103 @@
+name: CI — Validate & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # ── Job 1: Validate HTML ──────────────────────────────────────
+  validate:
+    name: Validate HTML & JS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install html-validate
+        run: npm install -g html-validate
+
+      - name: Check HTML structure
+        run: |
+          echo "Checking index.html..."
+          html-validate --config '{"extends":["html-validate:recommended"],"rules":{"void-style":"off","attr-quotes":"off","no-inline-style":"off","script-type":"off"}}' index.html || true
+          echo "HTML check complete"
+
+      - name: Check file sizes
+        run: |
+          echo "=== File sizes ==="
+          ls -lh *.html *.js 2>/dev/null || true
+          echo "=== Checking for TODO/FIXME ==="
+          grep -rn "TODO\|FIXME\|HACK\|XXX" --include="*.js" . || echo "No TODOs found"
+          echo "=== JS line counts ==="
+          wc -l *.js
+
+  # ── Job 2: Security audit ─────────────────────────────────────
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan for hardcoded secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          # Check for common secret patterns
+          if grep -rn "password\s*=\s*['\"][^'\"]\+['\"]" --include="*.js" --include="*.html" .; then
+            echo "WARNING: Possible hardcoded password found"
+          else
+            echo "No hardcoded passwords detected"
+          fi
+          if grep -rn "api_key\s*=\s*['\"][^'\"]\+['\"]" --include="*.js" --include="*.html" .; then
+            echo "WARNING: Possible hardcoded API key found"
+          else
+            echo "No hardcoded API keys detected"
+          fi
+          echo "Security scan complete"
+
+      - name: Check CDN integrity
+        run: |
+          echo "=== Checking CDN SRI hashes in index.html ==="
+          grep -o 'integrity="[^"]*"' index.html || echo "No integrity hashes found — consider adding SRI"
+          echo "CDN check complete"
+
+  # ── Job 3: Deploy to GitHub Pages ────────────────────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [validate]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

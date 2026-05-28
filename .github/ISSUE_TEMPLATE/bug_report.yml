@@ -1,0 +1,82 @@
+name: Bug Report
+description: Something is broken or not working as expected
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: ["Rishisharma029"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Fill in the details below.
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Version
+      placeholder: "e.g. Chrome 124, Firefox 126, Safari 17"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: section
+    attributes:
+      label: Which section is affected?
+      options:
+        - Auth / Loading screen
+        - Hero section
+        - Projects / Classified card
+        - Tech Stack
+        - Terminal
+        - Stats
+        - Timeline (Journey)
+        - About
+        - FAQ
+        - Contact
+        - Ghost cursors / Multiplayer
+        - DevTools easter egg
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the site
+        2. Click on ...
+        3. See the error
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors (if any)
+      description: Open DevTools (F12) → Console tab and paste any errors
+      render: shell
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues before creating this one
+          required: true
+        - label: I can reproduce this consistently
