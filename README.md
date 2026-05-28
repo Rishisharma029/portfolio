@@ -16,6 +16,8 @@
 
 A **cinematic, Awwwards-level personal portfolio** built entirely with CDN-only React 18, Framer Motion, and Tailwind CSS — no build step required. Designed with a dark, futuristic **control-panel aesthetic** featuring liquid-glass morphism, particle backgrounds, and a full "Portfolio OS" auth sequence on load.
 
+> :dizzy: **Designed to feel more like an experience than a traditional portfolio.**
+
 ---
 
 ## :sparkles: Features
@@ -82,15 +84,37 @@ A **cinematic, Awwwards-level personal portfolio** built entirely with CDN-only 
 
 ```
 portfolio/
-|-- index.html            # App shell, auth loader, CDN imports, DevTools easter egg
-|-- core.js               # Shared components: FadingVideo, BlurText, ScrollReveal,
-|                         #   AnimatedCounter, MagneticButton, CustomCursor,
-|                         #   ParticleSystem, GhostCursors, ClassifiedReveal, LiveClock
-|-- sec1.js               # Navbar, HeroSection, CapSection (Projects), ClassifiedCard
-|-- sec2.js               # TechSection, Terminal, StatsSection
-|-- sec3.js               # TimelineSection, AboutSection, FAQ, ContactSection, App root
-|-- rishi-portfolio.html  # Standalone single-file version (all JS inlined)
-|-- rishi-portfolio.zip   # Portable zip -- drag to Netlify to deploy instantly
+|-- index.html                  # App shell, auth loader, CDN imports, DevTools easter egg
+|-- rishi-portfolio.html        # Standalone single-file build (all JS inlined)
+|-- rishi-portfolio.zip         # Portable zip -- drag to Netlify to deploy instantly
+|
+|-- src/
+|   |
+|   |-- components/
+|   |   |-- core.js             # FadingVideo, BlurText, ScrollReveal, AnimatedCounter
+|   |   |                       # MagneticButton, ArrowUpRight, ChevronDown, all Icons
+|   |   |-- GhostCursors        # Real BroadcastChannel sync + simulated visitors
+|   |   |-- ClassifiedReveal    # Locked section overlay with scan-sweep unlock
+|   |   |-- CustomCursor        # Dot + ring cursor with glow trail canvas
+|   |   |-- ParticleSystem      # 60-particle canvas with connecting lines
+|   |   `-- LiveClock           # IST real-time clock + SYSTEM ONLINE indicator
+|   |
+|   |-- pages/
+|   |   |-- sec1.js             # Navbar, HeroSection, CapSection (Projects)
+|   |   |-- sec2.js             # TechSection, Terminal, StatsSection
+|   |   `-- sec3.js             # TimelineSection, AboutSection, FAQ, ContactSection
+|   |
+|   |-- assets/
+|   |   `-- screenshots/        # Preview images
+|   |
+|   |-- animations/
+|   |   |-- LoadingScreen       # Auth sequence: typewriter + progress bar + reveal
+|   |   |-- ClassifiedCard      # Scanline glitch unlock on click
+|   |   `-- BlurText            # Word-by-word blur-in entrance animation
+|   |
+|   `-- styles/
+|       `-- index.html          # Liquid-glass CSS, cursor styles, loader styles,
+|                               # keyframes: scanmove, pulse-dot, sweep-reveal
 ```
 
 ---
