@@ -81,8 +81,8 @@ body{background:#000;font-family:'Barlow',sans-serif;color:#fff;overflow-x:hidde
 const _origErr=console.error;
 console.error=(...a)=>{if(typeof a[0]==='string'&&a[0].includes('unique "key"'))return;_origErr(...a)};
 
-const{useRef,useEffect,useState,useCallback,useMemo}=React;
-const{motion,AnimatePresence,useInView}=window.Motion;
+var{useRef,useEffect,useState,useCallback}=React;
+var{motion,AnimatePresence,useInView}=window.Motion;
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FadingVideo â€” rAF-driven crossfade
@@ -227,7 +227,7 @@ function ParticleSystem(){
         ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.6)';ctx.fill();
         for(let j=i+1;j<particles.length;j++){
           const dx=p.x-particles[j].x,dy=p.y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);
-          if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(255,255,255,${0.15*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.stroke()}
+          if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(255,255,255,${0.15*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.stroke();}
         }
       });
       raf=requestAnimationFrame(draw);
@@ -428,8 +428,7 @@ function GhostCursors(){
     ];
     const states={};
     const targets={};
-    const W=()=>window.innerWidth;
-    const H=()=>window.innerHeight;
+
     const randTarget=()=>({x:0.1+Math.random()*0.8,y:0.1+Math.random()*0.8});
     ghosts.forEach(g=>{
       states[g.id]={x:Math.random(),y:Math.random(),active:false};
@@ -541,8 +540,7 @@ window.ParticleSystem=ParticleSystem;window.CustomCursor=CustomCursor;
 window.LoadingScreen=LoadingScreen;window.LiveClock=LiveClock;
 window.GhostCursors=GhostCursors;window.ClassifiedReveal=ClassifiedReveal;
 
-var {motion, AnimatePresence} = window.Motion;
-var {useRef, useEffect, useState, useCallback} = React;
+/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback â€” from core.js */
 const sv = {hidden:{opacity:0,y:40,filter:'blur(6px)'},visible:{opacity:1,y:0,filter:'blur(0px)'}};
 
 /* â”€â”€ Navbar â”€â”€ */
@@ -757,8 +755,7 @@ function ClassifiedCard(){
 window.Navbar=Navbar; window.HeroSection=HeroSection; window.CapSection=CapSection;
 window.ClassifiedCard=ClassifiedCard;
 
-var {motion, AnimatePresence} = window.Motion;
-var {useRef, useEffect, useState, useCallback} = React;
+/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback â€” from core.js */
 
 /* â”€â”€ Tech Stack Section â”€â”€ */
 const techStack = [
@@ -947,8 +944,7 @@ function StatsSection(){
 
 window.TechSection=TechSection; window.Terminal=Terminal; window.StatsSection=StatsSection;
 
-var {motion, AnimatePresence} = window.Motion;
-var {useRef, useEffect, useState} = React;
+/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback â€” from core.js */
 
 /* â”€â”€ Journey Timeline â”€â”€ */
 const journey = [

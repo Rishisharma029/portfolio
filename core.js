@@ -2,8 +2,8 @@
 const _origErr=console.error;
 console.error=(...a)=>{if(typeof a[0]==='string'&&a[0].includes('unique "key"'))return;_origErr(...a)};
 
-const{useRef,useEffect,useState,useCallback,useMemo}=React;
-const{motion,AnimatePresence,useInView}=window.Motion;
+var{useRef,useEffect,useState,useCallback}=React;
+var{motion,AnimatePresence,useInView}=window.Motion;
 
 /* ═══════════════════════════════════════
    FadingVideo — rAF-driven crossfade
@@ -148,7 +148,7 @@ function ParticleSystem(){
         ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.6)';ctx.fill();
         for(let j=i+1;j<particles.length;j++){
           const dx=p.x-particles[j].x,dy=p.y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);
-          if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(255,255,255,${0.15*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.stroke()}
+          if(dist<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(255,255,255,${0.15*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.stroke();}
         }
       });
       raf=requestAnimationFrame(draw);
@@ -349,8 +349,7 @@ function GhostCursors(){
     ];
     const states={};
     const targets={};
-    const W=()=>window.innerWidth;
-    const H=()=>window.innerHeight;
+
     const randTarget=()=>({x:0.1+Math.random()*0.8,y:0.1+Math.random()*0.8});
     ghosts.forEach(g=>{
       states[g.id]={x:Math.random(),y:Math.random(),active:false};

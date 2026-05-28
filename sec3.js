@@ -1,5 +1,4 @@
-var {motion, AnimatePresence} = window.Motion;
-var {useRef, useEffect, useState} = React;
+/* globals: motion, AnimatePresence, useInView, useRef, useEffect, useState, useCallback — from core.js */
 
 /* ── Journey Timeline ── */
 const journey = [
