@@ -976,7 +976,14 @@ function LiveDemosSection() {
   const [mode, setMode] = useState('browser');
   const [termOutput, setTermOutput] = useState([]);
   const [mousePos, setMousePos] = useState({x:0,y:0});
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const sectionRef = useRef(null);
+
+  useEffect(()=>{
+    const r=()=>setIsMobile(window.innerWidth<1024);
+    window.addEventListener('resize',r);
+    return()=>window.removeEventListener('resize',r);
+  },[]);
 
   const activeProj = demoProjects.find(p => p.id === selectedId);
 
@@ -1006,7 +1013,6 @@ function LiveDemosSection() {
   },[]);
 
   const ActiveSim = simulations[selectedId];
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   /* Floating particles config */
   const particles = [
