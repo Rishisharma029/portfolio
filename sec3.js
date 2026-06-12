@@ -181,6 +181,7 @@ function App(){
       <CustomCursor/>
       <HeroSection/>
       <CapSection/>
+      <LiveDemosSection/>
       <TechSection/>
       <Terminal/>
       <StatsSection/>

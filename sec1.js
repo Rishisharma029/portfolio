@@ -14,7 +14,7 @@ function Navbar(){
         <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'1.25rem',color:'#fff'}}>r</span>
       </div>
       <div className="liquid-glass" style={{borderRadius:9999,padding:'6px 6px',display:'flex',alignItems:'center',gap:0}}>
-        {['Home','Projects','Skills','Terminal','Journey','About','Contact'].map(l=>(
+        {['Home','Projects','Demos','Skills','Terminal','Journey','About','Contact'].map(l=>(
           <a key={l} href={'#'+l.toLowerCase()} style={{padding:'8px 12px',fontSize:'0.8rem',fontWeight:500,color:'rgba(255,255,255,0.85)',fontFamily:'Barlow,sans-serif',textDecoration:'none',transition:'color 0.2s'}}
             onMouseEnter={e=>e.target.style.color='#fff'} onMouseLeave={e=>e.target.style.color='rgba(255,255,255,0.85)'}>{l}</a>
         ))}
@@ -281,5 +281,499 @@ function ClassifiedCard(){
   );
 }
 
+/* ── Live Demo Hub Data & Components ── */
+
+const demoProjects = [
+  {
+    id: 'visuals-ai',
+    name: 'Visuals AI System Designer',
+    url: 'https://rishisharma029.github.io/visuals-ai-system-design-visualizer/',
+    badge: 'Main',
+    tagline: 'AI system architecture and diagramming platform.',
+    stats: {
+      'Modules': '14',
+      'AI Enabled': 'Yes',
+      'Realtime': 'Planned',
+      'Version': '0.3 Alpha'
+    },
+    terminalBoot: [
+      '$ launch visuals-ai',
+      'Initializing canvas...',
+      'Loading graph engine...',
+      'AI connected.',
+      'Ready.'
+    ]
+  },
+  {
+    id: 'devinspect',
+    name: 'DevInspect-AI',
+    url: 'https://rishisharma029.github.io/DevInspect-AI/',
+    badge: 'Main',
+    tagline: 'Developer code analyzer and real-time audit tools.',
+    stats: {
+      'Diagnostics': '120+',
+      'Language Support': 'JS, TS',
+      'AI Powered': '✓'
+    },
+    terminalBoot: [
+      '> Booting DevInspect-AI...',
+      '> Loading code engine...',
+      '> Initializing diagnostics...',
+      '> Ready ✓'
+    ]
+  },
+  {
+    id: 'resume-roaster',
+    name: 'AI Resume Roaster',
+    url: 'https://rishisharma029.github.io/ai-resume-roaster/',
+    badge: 'Main',
+    tagline: 'Brutally honest resume review and grading engine.',
+    stats: {
+      'Roast Templates': '12 Styles',
+      'NLP Parser': 'Custom RegEx',
+      'Humor Level': 'Brutal',
+      'Version': '1.1 Stable'
+    },
+    terminalBoot: [
+      '$ roast resume.pdf --brutal',
+      'Extracting PDF text structures...',
+      'Analyzing buzzword density (94%)...',
+      'Running AI critique engine...',
+      'Ready ✓ Roast score generated: 38/100.'
+    ]
+  },
+  {
+    id: 'evalsync',
+    name: 'EvalSync System',
+    url: 'https://rishisharma029.github.io/EvalSync-System/',
+    badge: 'Main',
+    tagline: 'Evaluation platform with live dashboard and reporting.',
+    stats: {
+      'Database': 'PostgreSQL & Redis',
+      'Latency': '< 45ms',
+      'Auth Type': 'OAuth2 / JWT',
+      'Role Engines': 'Admin, Assessor'
+    },
+    terminalBoot: [
+      '$ evalsync-admin --connect',
+      'Spawning database pool connections...',
+      'Checking cache nodes (Redis cluster)...',
+      'Syncing web sockets with client nodes...',
+      'Ready ✓ Core admin control panel active.'
+    ]
+  },
+  {
+    id: 'bughunter',
+    name: 'BugHunter-AI',
+    url: 'https://rishisharma029.github.io/bughunter-ai/',
+    badge: 'Lab',
+    tagline: 'Vulnerability detection and threat logs explorer.',
+    stats: {
+      'Scan Speed': '800 LOC/sec',
+      'Database': 'CVE 2026 Registry',
+      'False Positives': '< 4.2%',
+      'Scanner': 'AST + Control Flow'
+    },
+    terminalBoot: [
+      '$ bughunter --scan ./src',
+      'Indexing codebase file trees...',
+      'Building semantic control flow graph...',
+      'Running CVE pattern matcher...',
+      'Ready ✓ Found 1 security issue (SQL Injection).'
+    ]
+  },
+  {
+    id: 'resqnet',
+    name: 'ResqNet',
+    url: 'https://rishisharma029.github.io/resqnet/',
+    badge: 'Lab',
+    tagline: 'Emergency coordination map and dispatch board.',
+    stats: {
+      'Mesh Sync': 'UDP broadcast',
+      'Encryption': 'AES-256 GCM',
+      'Active Pings': '12 Nodes',
+      'Protocol': 'ResqNet v2.1'
+    },
+    terminalBoot: [
+      '$ resqnet-node listen --port 443',
+      'Opening UDP socket broadcast listeners...',
+      'Establishing AES-256 secure session keys...',
+      'Listening for mesh heartbeat pings...',
+      'Ready ✓ Connected to disaster dispatch.'
+    ]
+  },
+  {
+    id: 'ai-workshop',
+    name: 'AI Engineering Workshop',
+    url: 'https://rishisharma029.github.io/ai-engineering-workshop/',
+    badge: 'Lab',
+    tagline: 'Open-source PyTorch notebook experiments list.',
+    stats: {
+      'Frameworks': 'PyTorch, Transformers',
+      'Hardware': 'CUDA Enabled',
+      'Notebooks': '6 Experiments',
+      'Status': 'Open Source'
+    },
+    terminalBoot: [
+      '$ jupyter notebook --allow-root',
+      'Starting Jupyter server backend...',
+      'Importing PyTorch CUDA drivers...',
+      'Loading training datasets (MNIST/IMDB)...',
+      'Ready ✓ Live notebooks loaded successfully.'
+    ]
+  }
+];
+
+/* ── Interactive Simulations for Browser View ── */
+
+function VisualsAISim() {
+  return (
+    <div style={{position:'relative',width:'100%',height:'100%',background:'#050508',padding:20,fontFamily:'JetBrains Mono,monospace',color:'rgba(255,255,255,0.8)',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ VISUALS-AI GRAPH SIMULATION ]</div>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',flex:1,gap:32,position:'relative'}}>
+        {/* Mock nodes */}
+        <motion.div animate={{boxShadow:['0 0 10px rgba(110,231,183,0.1)','0 0 25px rgba(110,231,183,0.4)','0 0 10px rgba(110,231,183,0.1)']}} transition={{duration:3,repeat:Infinity}}
+          style={{width:75,height:55,border:'1px solid #6ee7b7',borderRadius:8,background:'rgba(110,231,183,0.05)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'#6ee7b7'}}>
+          Client
+        </motion.div>
+        
+        {/* Animated Connector Arrow */}
+        <div style={{width:60,height:2,background:'linear-gradient(90deg, #6ee7b7, #3b82f6)',position:'relative'}}>
+          <motion.div animate={{left:['0%','100%','0%']}} transition={{duration:2,repeat:Infinity,ease:'easeInOut'}}
+            style={{position:'absolute',width:6,height:6,borderRadius:'50%',background:'#fff',top:-2,boxShadow:'0 0 8px #fff'}}/>
+        </div>
+
+        <motion.div animate={{boxShadow:['0 0 10px rgba(59,130,246,0.1)','0 0 25px rgba(59,130,246,0.4)','0 0 10px rgba(59,130,246,0.1)']}} transition={{duration:3,repeat:Infinity,delay:0.5}}
+          style={{width:75,height:55,border:'1px solid #3b82f6',borderRadius:8,background:'rgba(59,130,246,0.05)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'#3b82f6'}}>
+          API Gateway
+        </motion.div>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(110,231,183,0.8)',textAlign:'center'}}>✓ Generated system schema: 14 nodes initialized</div>
+    </div>
+  );
+}
+
+function DevInspectSim() {
+  const [line, setLine] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setLine(l => (l + 1) % 4), 1800);
+    return () => clearInterval(id);
+  }, []);
+  const issues = [
+    {file: 'auth.js:12', msg: 'VULNERABILITY: Plaintext password logging', severity: 'Critical', color: '#f87171'},
+    {file: 'server.js:45', msg: 'PERFORMANCE: Missing cluster instances', severity: 'Warning', color: '#fbbf24'},
+    {file: 'utils.js:114', msg: 'CLEAN: All hook bindings valid', severity: 'Info', color: '#34d399'},
+    {file: 'db.js:8', msg: 'COMPATIBILITY: Connection pool deprecated', severity: 'Warning', color: '#fbbf24'}
+  ];
+  return (
+    <div style={{width:'100%',height:'100%',background:'#080505',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:12}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ DEVINSPECT-AI SCANNER ]</div>
+      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:16,flex:1,display:'flex',flexDirection:'column',gap:10,justifyContent:'center'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:'0.75rem'}}>
+          <span style={{color:'rgba(255,255,255,0.4)'}}>Target: ./src</span>
+          <span style={{color:'#f87171',fontWeight:600}}>1 Critical Issue</span>
+        </div>
+        <div style={{height:1,background:'rgba(255,255,255,0.08)'}}/>
+        <div style={{fontSize:'0.75rem',color:issues[line].color,lineHeight:1.4}}>
+          <div><strong>[{issues[line].severity}]</strong> {issues[line].file}</div>
+          <div style={{color:'rgba(255,255,255,0.7)',marginTop:4}}>{issues[line].msg}</div>
+        </div>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Diagnostics engine running live...</div>
+    </div>
+  );
+}
+
+function ResumeRoasterSim() {
+  return (
+    <div style={{width:'100%',height:'100%',background:'#090500',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)',width:'100%'}}>[ AI ROASTER SCORE DIAL ]</div>
+      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12}}>
+        {/* Score Dial */}
+        <div style={{width:100,height:100,borderRadius:'50%',border:'3px solid rgba(248,113,113,0.15)',borderTopColor:'#f87171',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',boxShadow:'0 0 25px rgba(248,113,113,0.1)',animation:'spin 10s linear infinite'}}>
+          <div style={{transform:'rotate(0deg)',fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'2.2rem',color:'#f87171'}}>38%</div>
+          <div style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:1,marginTop:-2}}>Score</div>
+        </div>
+        <div style={{fontSize:'0.78rem',color:'#f87171',fontStyle:'italic',textAlign:'center',maxWidth:240,lineHeight:1.4}}>
+          "Your career objectives paragraph is longer than your actual work history."
+        </div>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)'}}>Status: Brutally roasted.</div>
+    </div>
+  );
+}
+
+function EvalSyncSim() {
+  return (
+    <div style={{width:'100%',height:'100%',background:'#030706',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ EVALSYNC MONITOR ]</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,flex:1,alignContent:'center'}}>
+        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
+          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>DB Nodes</span>
+          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>4 / 4 ONLINE</span>
+        </div>
+        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
+          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Sync latency</span>
+          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>42ms Avg</span>
+        </div>
+        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
+          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Socket Conn</span>
+          <span style={{fontSize:'0.9rem',color:'#fff',fontWeight:600}}>140 Active</span>
+        </div>
+        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
+          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Auth status</span>
+          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>JWT ACTIVE</span>
+        </div>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Realtime websocket channels sync OK</div>
+    </div>
+  );
+}
+
+function BugHunterSim() {
+  const [logs, setLogs] = useState([]);
+  useEffect(() => {
+    const list = [
+      'Scanning index.js...',
+      'Scanning auth.js...',
+      'WARNING: Hardcoded JWT secret found in auth.js',
+      'Scanning database.js...',
+      'CRITICAL: SQL Injection vulnerability on query()',
+      'Scanning utils.js...',
+      'Vulnerability scanning cycle completed.'
+    ];
+    let i = 0;
+    setLogs([list[0]]);
+    const id = setInterval(() => {
+      i = (i + 1) % list.length;
+      if (i === 0) setLogs([list[0]]);
+      else setLogs(p => [...p.slice(-4), list[i]]);
+    }, 1500);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#080406',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ BUGHUNTER AUDIT LOGS ]</div>
+      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:14,flex:1,display:'flex',flexDirection:'column',gap:6,justifyContent:'center',fontSize:'0.68rem'}}>
+        {logs.map((log, i) => (
+          <div key={i} style={{color: log.includes('CRITICAL') ? '#f87171' : log.includes('WARNING') ? '#fbbf24' : 'rgba(255,255,255,0.7)'}}>
+            {log.includes('CRITICAL') || log.includes('WARNING') ? '!' : '>'} {log}
+          </div>
+        ))}
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Engine active: AST semantic validation</div>
+    </div>
+  );
+}
+
+function ResqNetSim() {
+  return (
+    <div style={{width:'100%',height:'100%',background:'#030307',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ RESQNET EMERGENCY MAP ]</div>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',flex:1,position:'relative',overflow:'hidden'}}>
+        {/* Mock network nodes pulsing */}
+        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#67e8f9',top:'30%',left:'25%',boxShadow:'0 0 15px #67e8f9'}}/>
+        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#67e8f9',top:'60%',left:'70%',boxShadow:'0 0 15px #67e8f9'}}/>
+        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#ef4444',top:'40%',left:'50%',boxShadow:'0 0 15px #ef4444'}}/>
+        
+        {/* Draw a subtle map outline grid */}
+        <div style={{width:'90%',height:'80%',border:'1px dashed rgba(255,255,255,0.06)',backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',backgroundSize:'16px 16px'}}/>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'#67e8f9',textAlign:'center'}}>AES-256 Mesh node active (12 live links)</div>
+    </div>
+  );
+}
+
+function AIWorkshopSim() {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setStep(s => (s + 1) % 50), 100);
+    return () => clearInterval(id);
+  }, []);
+  const loss = (0.9 - (step / 50) * 0.8).toFixed(3);
+  const acc = (80.2 + (step / 50) * 18).toFixed(1);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#050705',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ MODEL TRAINING SIMULATION ]</div>
+      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:16,flex:1,display:'flex',flexDirection:'column',justifyContent:'center',gap:8}}>
+        <div style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.8)'}}>Epoch {Math.floor(step / 10) + 1} / 5</div>
+        <div style={{height:4,background:'rgba(255,255,255,0.08)',borderRadius:9999,overflow:'hidden'}}>
+          <div style={{height:'100%',width:((step % 10) * 10) + '%',background:'#10b981'}}/>
+        </div>
+        <div style={{display:'flex',justifyContent: 'space-between',fontSize:'0.7rem',color:'#10b981',marginTop:4}}>
+          <span>Loss: {loss}</span>
+          <span>Accuracy: {acc}%</span>
+        </div>
+      </div>
+      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>CUDA PyTorch drivers active</div>
+    </div>
+  );
+}
+
+const simulations = {
+  'visuals-ai': VisualsAISim,
+  'devinspect': DevInspectSim,
+  'resume-roaster': ResumeRoasterSim,
+  'evalsync': EvalSyncSim,
+  'bughunter': BugHunterSim,
+  'resqnet': ResqNetSim,
+  'ai-workshop': AIWorkshopSim
+};
+
+/* ── LiveDemosSection component ── */
+
+function LiveDemosSection() {
+  const [selectedId, setSelectedId] = useState('visuals-ai');
+  const [mode, setMode] = useState('browser'); // 'browser' or 'terminal'
+  const [termOutput, setTermOutput] = useState([]);
+  const [typingIdx, setTypingIdx] = useState(0);
+
+  const activeProj = demoProjects.find(p => p.id === selectedId);
+
+  // Trigger boot typing when selection or mode changes
+  useEffect(() => {
+    if (mode !== 'terminal') return;
+    setTermOutput([]);
+    setTypingIdx(0);
+    const logs = activeProj.terminalBoot;
+    
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < logs.length) {
+        setTermOutput(prev => [...prev, logs[i]]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 600);
+
+    return () => clearInterval(interval);
+  }, [selectedId, mode]);
+
+  const ActiveSim = simulations[selectedId];
+
+  return (
+    <section id="demos" style={{position:'relative',background:'#000',padding:'96px 5rem 80px',minHeight:'100vh',display:'flex',flexDirection:'column'}}>
+      <div style={{marginBottom:48}}>
+        <ScrollReveal delay={0.1}>
+          <p style={{fontSize:'0.8rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.6)',marginBottom:16}}>// Active Prototypes</p>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <h2 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'clamp(2.5rem,6vw,5rem)',lineHeight:0.9,letterSpacing:'-3px'}}>Live Demos &amp;<br/>Sandbox Hub</h2>
+        </ScrollReveal>
+      </div>
+
+      <div style={{display:'flex',flexDirection:window.innerWidth < 1024 ? 'column' : 'row',gap:32,flex:1}}>
+        
+        {/* Left list panel */}
+        <div style={{flex:1,display:'flex',flexDirection:'column',gap:16,maxHeight:window.innerWidth < 1024 ? 'auto' : '620px',overflowY:'auto',paddingRight:8}}>
+          {demoProjects.map((p, i) => (
+            <ScrollReveal key={p.id} delay={0.08 * i}>
+              <div onClick={() => setSelectedId(p.id)} className="liquid-glass"
+                style={{
+                  borderRadius:'1.25rem',
+                  padding:20,
+                  cursor:'none',
+                  border:selectedId === p.id ? '1px solid rgba(255,255,255,0.25)' : '1px solid rgba(255,255,255,0.06)',
+                  background:selectedId === p.id ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.01)',
+                  transition:'all 0.3s'
+                }}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}>
+                  <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'1.35rem',color:'#fff'}}>{p.name}</h3>
+                  <span style={{
+                    fontFamily:'JetBrains Mono,monospace',
+                    fontSize:'0.55rem',
+                    letterSpacing:'0.15em',
+                    textTransform:'uppercase',
+                    color:p.badge === 'Main' ? '#6ee7b7' : '#a78bfa',
+                    border:`1px solid ${p.badge === 'Main' ? 'rgba(110,231,183,0.3)' : 'rgba(167,139,250,0.3)'}`,
+                    background:p.badge === 'Main' ? 'rgba(110,231,183,0.05)' : 'rgba(167,139,250,0.05)',
+                    padding:'2px 6px',
+                    borderRadius:4
+                  }}>{p.badge}</span>
+                </div>
+                <p style={{fontSize:'0.82rem',color:'rgba(255,255,255,0.6)',fontFamily:'Barlow,sans-serif',fontWeight:300,marginTop:6}}>{p.tagline}</p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        {/* Right preview panel */}
+        <div style={{flex:1.2,display:'flex',flexDirection:'column',gap:20}}>
+          <ScrollReveal delay={0.2}>
+            {/* Viewport Frame */}
+            <div className="liquid-glass" style={{borderRadius:'1.25rem',border:'1px solid rgba(255,255,255,0.1)',background:'rgba(0,0,0,0.4)',display:'flex',flexDirection:'column',height:window.innerWidth < 1024 ? '380px' : '450px',overflow:'hidden'}}>
+              
+              {/* Frame Header / Controls */}
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 20px',borderBottom:'1px solid rgba(255,255,255,0.08)',background:'rgba(255,255,255,0.02)'}}>
+                <div style={{display:'flex',gap:6}}>
+                  <div style={{width:8,height:8,borderRadius:'50%',background:'#f87171'}}/>
+                  <div style={{width:8,height:8,borderRadius:'50%',background:'#fbbf24'}}/>
+                  <div style={{width:8,height:8,borderRadius:'50%',background:'#34d399'}}/>
+                </div>
+                
+                {/* Mode Switcher */}
+                <div style={{display:'flex',background:'rgba(255,255,255,0.05)',borderRadius:9999,padding:2}}>
+                  <button onClick={() => setMode('browser')} style={{border:'none',background:mode==='browser'?'#fff':'transparent',color:mode==='browser'?'#000':'#fff',fontSize:'0.65rem',fontFamily:'Barlow,sans-serif',fontWeight:600,padding:'4px 12px',borderRadius:9999,cursor:'none',transition:'all 0.2s'}}>Browser View</button>
+                  <button onClick={() => setMode('terminal')} style={{border:'none',background:mode==='terminal'?'#fff':'transparent',color:mode==='terminal'?'#000':'#fff',fontSize:'0.65rem',fontFamily:'Barlow,sans-serif',fontWeight:600,padding:'4px 12px',borderRadius:9999,cursor:'none',transition:'all 0.2s'}}>Terminal View</button>
+                </div>
+              </div>
+
+              {/* Viewport Content */}
+              <div style={{flex:1,position:'relative',overflow:'hidden'}}>
+                {mode === 'browser' ? (
+                  <ActiveSim />
+                ) : (
+                  <div style={{width:'100%',height:'100%',background:'#050508',padding:20,fontFamily:'JetBrains Mono,monospace',fontSize:'0.75rem',lineHeight:1.8,color:'#34d399',overflowY:'auto'}}>
+                    {termOutput.map((log, idx) => (
+                      <div key={idx} style={{color:log.startsWith('$')?'#67e8f9':'#34d399'}}>{log}</div>
+                    ))}
+                    <span className="cursor-blink"/>
+                  </div>
+                )}
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Mini Stats Card */}
+          <ScrollReveal delay={0.3}>
+            <div className="liquid-glass" style={{borderRadius:'1.25rem',padding:24,display:'flex',flexDirection:'column',gap:16}}>
+              <h4 style={{fontSize:'0.65rem',fontFamily:'JetBrains Mono,monospace',color:'rgba(255,255,255,0.3)',textTransform:'uppercase',letterSpacing:'0.2em'}}>// Active Statistics</h4>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(2, 1fr)',gap:12}}>
+                {Object.entries(activeProj.stats).map(([k, v]) => (
+                  <div key={k} style={{display:'flex',justifyContent:'space-between',borderBottom:'1px solid rgba(255,255,255,0.06)',paddingBottom:6}}>
+                    <span style={{fontSize:'0.75rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.5)'}}>{k}</span>
+                    <span style={{fontSize:'0.75rem',fontFamily:'JetBrains Mono,monospace',color:'#fff',fontWeight:500}}>{v}</span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Launcher CTA */}
+              <div style={{display:'flex',justifyContent:'flex-end',marginTop:8}}>
+                <a href={activeProj.url} target="_blank" rel="noopener noreferrer" className="liquid-glass-strong"
+                  style={{
+                    borderRadius:9999,
+                    padding:'10px 20px',
+                    fontSize:'0.78rem',
+                    fontWeight:600,
+                    color:'#fff',
+                    textDecoration:'none',
+                    display:'inline-flex',
+                    alignItems:'center',
+                    gap:6,
+                    cursor:'none'
+                  }}>
+                  Launch Live Application <ArrowUpRight style={{width:14,height:14}}/>
+                </a>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 window.Navbar=Navbar; window.HeroSection=HeroSection; window.CapSection=CapSection;
-window.ClassifiedCard=ClassifiedCard;
+window.ClassifiedCard=ClassifiedCard; window.LiveDemosSection=LiveDemosSection;
