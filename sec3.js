@@ -184,12 +184,8 @@ function App(){
       <TechSection/>
       <Terminal/>
       <StatsSection/>
-      <ClassifiedReveal label="JOURNEY DATA">
-        <TimelineSection/>
-      </ClassifiedReveal>
-      <ClassifiedReveal label="PERSONAL RECORD">
-        <AboutSection/>
-      </ClassifiedReveal>
+      <TimelineSection/>
+      <AboutSection/>
       <FAQ/>
       <ContactSection/>
     </>
