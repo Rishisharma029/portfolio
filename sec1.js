@@ -424,188 +424,446 @@ const demoProjects = [
   }
 ];
 
+
 /* ── Interactive Simulations for Browser View ── */
 
+/* VISUALS-AI: Animated architecture graph with nodes drawing SVG connections */
 function VisualsAISim() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick(t => t + 1), 1200);
+    return () => clearInterval(id);
+  }, []);
+  const nodes = [
+    { x: 50, y: 30, label: 'Client', color: '#6ee7b7' },
+    { x: 180, y: 80, label: 'API GW', color: '#60a5fa' },
+    { x: 310, y: 30, label: 'Auth', color: '#a78bfa' },
+    { x: 310, y: 120, label: 'DB', color: '#f59e0b' },
+    { x: 180, y: 150, label: 'Cache', color: '#f87171' },
+  ];
+  const edges = [[0,1],[1,2],[1,3],[1,4],[2,3]];
+  const activeEdge = tick % edges.length;
   return (
-    <div style={{position:'relative',width:'100%',height:'100%',background:'#050508',padding:20,fontFamily:'JetBrains Mono,monospace',color:'rgba(255,255,255,0.8)',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ VISUALS-AI GRAPH SIMULATION ]</div>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',flex:1,gap:32,position:'relative'}}>
-        {/* Mock nodes */}
-        <motion.div animate={{boxShadow:['0 0 10px rgba(110,231,183,0.1)','0 0 25px rgba(110,231,183,0.4)','0 0 10px rgba(110,231,183,0.1)']}} transition={{duration:3,repeat:Infinity}}
-          style={{width:75,height:55,border:'1px solid #6ee7b7',borderRadius:8,background:'rgba(110,231,183,0.05)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'#6ee7b7'}}>
-          Client
-        </motion.div>
-        
-        {/* Animated Connector Arrow */}
-        <div style={{width:60,height:2,background:'linear-gradient(90deg, #6ee7b7, #3b82f6)',position:'relative'}}>
-          <motion.div animate={{left:['0%','100%','0%']}} transition={{duration:2,repeat:Infinity,ease:'easeInOut'}}
-            style={{position:'absolute',width:6,height:6,borderRadius:'50%',background:'#fff',top:-2,boxShadow:'0 0 8px #fff'}}/>
+    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,#050510 0%,#0a0a1a 100%)',display:'flex',flexDirection:'column',padding:16,overflow:'hidden',position:'relative'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <div style={{width:6,height:6,borderRadius:'50%',background:'#6ee7b7',boxShadow:'0 0 8px #6ee7b7'}}/>
+          <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',color:'#6ee7b7',letterSpacing:'0.15em'}}>VISUALS-AI</span>
         </div>
-
-        <motion.div animate={{boxShadow:['0 0 10px rgba(59,130,246,0.1)','0 0 25px rgba(59,130,246,0.4)','0 0 10px rgba(59,130,246,0.1)']}} transition={{duration:3,repeat:Infinity,delay:0.5}}
-          style={{width:75,height:55,border:'1px solid #3b82f6',borderRadius:8,background:'rgba(59,130,246,0.05)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'#3b82f6'}}>
-          API Gateway
-        </motion.div>
+        <div style={{display:'flex',gap:4}}>
+          {['LAYOUT','SCHEMA','EXPORT'].map(t=>(
+            <span key={t} style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.45rem',color:'rgba(255,255,255,0.25)',padding:'2px 6px',border:'1px solid rgba(255,255,255,0.06)',borderRadius:3}}>{t}</span>
+          ))}
+        </div>
       </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(110,231,183,0.8)',textAlign:'center'}}>✓ Generated system schema: 14 nodes initialized</div>
+      <div style={{flex:1,position:'relative',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,overflow:'hidden',background:'rgba(0,0,0,0.3)'}}>
+        <svg width="100%" height="100%" viewBox="0 0 370 175" style={{position:'absolute',inset:0}}>
+          <defs>
+            <pattern id="vgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#vgrid)"/>
+          {edges.map(([a,b],i) => (
+            <line key={i}
+              x1={nodes[a].x+28} y1={nodes[a].y+14}
+              x2={nodes[b].x+28} y2={nodes[b].y+14}
+              stroke={i === activeEdge ? '#fff' : 'rgba(255,255,255,0.08)'}
+              strokeWidth={i === activeEdge ? 1.5 : 0.8}
+              strokeDasharray={i === activeEdge ? '0' : '4 4'}
+              style={{transition:'all 0.6s'}}
+            />
+          ))}
+          {nodes.map((n,i) => (
+            <g key={i}>
+              <rect x={n.x} y={n.y} width={56} height={28} rx={5}
+                fill={n.color+'08'} stroke={n.color} strokeWidth="0.8" style={{filter:'drop-shadow(0 0 6px '+n.color+'44)'}}/>
+              <text x={n.x+28} y={n.y+17} textAnchor="middle" fill={n.color} fontSize="7" fontFamily="JetBrains Mono,monospace">{n.label}</text>
+            </g>
+          ))}
+          <motion.circle
+            r="4" fill="#fff" style={{filter:'drop-shadow(0 0 4px #fff)'}}
+            animate={{
+              cx:[nodes[edges[activeEdge][0]].x+28, nodes[edges[activeEdge][1]].x+28],
+              cy:[nodes[edges[activeEdge][0]].y+14, nodes[edges[activeEdge][1]].y+14],
+            }}
+            transition={{duration:1.0, ease:'easeInOut'}}
+          />
+        </svg>
+      </div>
+      <div style={{marginTop:10,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.55rem',color:'rgba(255,255,255,0.25)'}}>5 nodes · {edges.length} connections</span>
+        <motion.span animate={{opacity:[0.4,1,0.4]}} transition={{duration:2,repeat:Infinity}}
+          style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.55rem',color:'#6ee7b7'}}>● LIVE RENDERING</motion.span>
+      </div>
     </div>
   );
 }
 
+/* DEVINSPECT-AI: Code editor with syntax highlight + animated scan overlay */
 function DevInspectSim() {
-  const [line, setLine] = useState(0);
+  const [scanLine, setScanLine] = useState(0);
+  const [found, setFound] = useState(false);
   useEffect(() => {
-    const id = setInterval(() => setLine(l => (l + 1) % 4), 1800);
+    const id = setInterval(() => {
+      setScanLine(l => {
+        if (l >= 7) { setFound(true); return 0; }
+        setFound(false);
+        return l + 1;
+      });
+    }, 350);
     return () => clearInterval(id);
   }, []);
-  const issues = [
-    {file: 'auth.js:12', msg: 'VULNERABILITY: Plaintext password logging', severity: 'Critical', color: '#f87171'},
-    {file: 'server.js:45', msg: 'PERFORMANCE: Missing cluster instances', severity: 'Warning', color: '#fbbf24'},
-    {file: 'utils.js:114', msg: 'CLEAN: All hook bindings valid', severity: 'Info', color: '#34d399'},
-    {file: 'db.js:8', msg: 'COMPATIBILITY: Connection pool deprecated', severity: 'Warning', color: '#fbbf24'}
+  const lines = [
+    { n:1, tokens:[{c:'#a78bfa',t:'function '},{c:'#60a5fa',t:'authenticate'},{c:'#fff',t:'(req) {'}] },
+    { n:2, tokens:[{c:'rgba(255,255,255,0.3)',t:'  // verify JWT token'}] },
+    { n:3, tokens:[{c:'#a78bfa',t:'  const '},{c:'#6ee7b7',t:'token '},{c:'#fff',t:'= req.headers.auth'}] },
+    { n:4, tokens:[{c:'#a78bfa',t:'  if '},{c:'#fff',t:'(!token) {'},{c:'#f87171',t:' // MISSING'}] },
+    { n:5, tokens:[{c:'#f87171',t:'    console'},{c:'#fff',t:'.'},{c:'#f87171',t:'log'},{c:'#fff',t:'('},{c:'#fbbf24',t:'"pass:"'},{c:'#fff',t:', password)'}] },
+    { n:6, tokens:[{c:'#fff',t:'  }'}] },
+    { n:7, tokens:[{c:'#a78bfa',t:'  return '},{c:'#60a5fa',t:'jwt'},{c:'#fff',t:'.verify(token, SECRET)'}] },
+    { n:8, tokens:[{c:'#fff',t:'}'}] },
   ];
   return (
-    <div style={{width:'100%',height:'100%',background:'#080505',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',gap:12}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ DEVINSPECT-AI SCANNER ]</div>
-      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:16,flex:1,display:'flex',flexDirection:'column',gap:10,justifyContent:'center'}}>
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:'0.75rem'}}>
-          <span style={{color:'rgba(255,255,255,0.4)'}}>Target: ./src</span>
-          <span style={{color:'#f87171',fontWeight:600}}>1 Critical Issue</span>
-        </div>
-        <div style={{height:1,background:'rgba(255,255,255,0.08)'}}/>
-        <div style={{fontSize:'0.75rem',color:issues[line].color,lineHeight:1.4}}>
-          <div><strong>[{issues[line].severity}]</strong> {issues[line].file}</div>
-          <div style={{color:'rgba(255,255,255,0.7)',marginTop:4}}>{issues[line].msg}</div>
-        </div>
-      </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Diagnostics engine running live...</div>
-    </div>
-  );
-}
-
-function ResumeRoasterSim() {
-  return (
-    <div style={{width:'100%',height:'100%',background:'#090500',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)',width:'100%'}}>[ AI ROASTER SCORE DIAL ]</div>
-      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12}}>
-        {/* Score Dial */}
-        <div style={{width:100,height:100,borderRadius:'50%',border:'3px solid rgba(248,113,113,0.15)',borderTopColor:'#f87171',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',boxShadow:'0 0 25px rgba(248,113,113,0.1)',animation:'spin 10s linear infinite'}}>
-          <div style={{transform:'rotate(0deg)',fontFamily:'"Instrument Serif",serif',fontStyle:'italic',fontSize:'2.2rem',color:'#f87171'}}>38%</div>
-          <div style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase',letterSpacing:1,marginTop:-2}}>Score</div>
-        </div>
-        <div style={{fontSize:'0.78rem',color:'#f87171',fontStyle:'italic',textAlign:'center',maxWidth:240,lineHeight:1.4}}>
-          "Your career objectives paragraph is longer than your actual work history."
-        </div>
-      </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)'}}>Status: Brutally roasted.</div>
-    </div>
-  );
-}
-
-function EvalSyncSim() {
-  return (
-    <div style={{width:'100%',height:'100%',background:'#030706',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ EVALSYNC MONITOR ]</div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,flex:1,alignContent:'center'}}>
-        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
-          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>DB Nodes</span>
-          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>4 / 4 ONLINE</span>
-        </div>
-        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
-          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Sync latency</span>
-          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>42ms Avg</span>
-        </div>
-        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
-          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Socket Conn</span>
-          <span style={{fontSize:'0.9rem',color:'#fff',fontWeight:600}}>140 Active</span>
-        </div>
-        <div className="liquid-glass" style={{borderRadius:8,padding:12,display:'flex',flexDirection:'column',gap:4}}>
-          <span style={{fontSize:'0.55rem',color:'rgba(255,255,255,0.4)',textTransform:'uppercase'}}>Auth status</span>
-          <span style={{fontSize:'0.9rem',color:'#34d399',fontWeight:600}}>JWT ACTIVE</span>
-        </div>
-      </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Realtime websocket channels sync OK</div>
-    </div>
-  );
-}
-
-function BugHunterSim() {
-  const [logs, setLogs] = useState([]);
-  useEffect(() => {
-    const list = [
-      'Scanning index.js...',
-      'Scanning auth.js...',
-      'WARNING: Hardcoded JWT secret found in auth.js',
-      'Scanning database.js...',
-      'CRITICAL: SQL Injection vulnerability on query()',
-      'Scanning utils.js...',
-      'Vulnerability scanning cycle completed.'
-    ];
-    let i = 0;
-    setLogs([list[0]]);
-    const id = setInterval(() => {
-      i = (i + 1) % list.length;
-      if (i === 0) setLogs([list[0]]);
-      else setLogs(p => [...p.slice(-4), list[i]]);
-    }, 1500);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div style={{width:'100%',height:'100%',background:'#080406',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ BUGHUNTER AUDIT LOGS ]</div>
-      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:14,flex:1,display:'flex',flexDirection:'column',gap:6,justifyContent:'center',fontSize:'0.68rem'}}>
-        {logs.map((log, i) => (
-          <div key={i} style={{color: log.includes('CRITICAL') ? '#f87171' : log.includes('WARNING') ? '#fbbf24' : 'rgba(255,255,255,0.7)'}}>
-            {log.includes('CRITICAL') || log.includes('WARNING') ? '!' : '>'} {log}
+    <div style={{width:'100%',height:'100%',background:'#0d0d14',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <div style={{display:'flex',alignItems:'center',gap:0,background:'#0a0a10',borderBottom:'1px solid rgba(255,255,255,0.06)',padding:'6px 14px'}}>
+        {['auth.js','server.js','db.js'].map((f,i)=>(
+          <div key={f} style={{padding:'4px 14px',fontSize:'0.6rem',fontFamily:'JetBrains Mono,monospace',color: i===0 ? '#fff' : 'rgba(255,255,255,0.3)',borderBottom: i===0 ? '1px solid #6ee7b7' : 'none',marginRight:4}}>
+            {i===0 && <span style={{color:'#f87171',marginRight:4}}>●</span>}{f}
           </div>
         ))}
       </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>Engine active: AST semantic validation</div>
-    </div>
-  );
-}
-
-function ResqNetSim() {
-  return (
-    <div style={{width:'100%',height:'100%',background:'#030307',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ RESQNET EMERGENCY MAP ]</div>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',flex:1,position:'relative',overflow:'hidden'}}>
-        {/* Mock network nodes pulsing */}
-        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#67e8f9',top:'30%',left:'25%',boxShadow:'0 0 15px #67e8f9'}}/>
-        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#67e8f9',top:'60%',left:'70%',boxShadow:'0 0 15px #67e8f9'}}/>
-        <div style={{position:'absolute',width:12,height:12,borderRadius:'50%',background:'#ef4444',top:'40%',left:'50%',boxShadow:'0 0 15px #ef4444'}}/>
-        
-        {/* Draw a subtle map outline grid */}
-        <div style={{width:'90%',height:'80%',border:'1px dashed rgba(255,255,255,0.06)',backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',backgroundSize:'16px 16px'}}/>
+      <div style={{flex:1,padding:'12px 0',fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',lineHeight:1.9,overflow:'hidden',position:'relative'}}>
+        {lines.map((line,i) => (
+          <div key={i} style={{display:'flex',alignItems:'center',position:'relative',background: i===4 ? 'rgba(248,113,113,0.06)' : (scanLine===i ? 'rgba(255,255,255,0.03)' : 'transparent'),transition:'background 0.2s'}}>
+            <span style={{width:32,textAlign:'right',color:'rgba(255,255,255,0.15)',paddingRight:12,flexShrink:0}}>{line.n}</span>
+            {scanLine===i && <motion.div animate={{scaleX:[0,1]}} transition={{duration:0.3}} style={{position:'absolute',left:32,right:0,height:'100%',background:'rgba(96,165,250,0.04)',transformOrigin:'left'}}/>}
+            <span>{line.tokens.map((tk,j)=><span key={j} style={{color:tk.c}}>{tk.t}</span>)}</span>
+          </div>
+        ))}
+        <motion.div
+          style={{position:'absolute',left:32,right:0,height:1,background:'linear-gradient(90deg,transparent,rgba(96,165,250,0.6),transparent)',pointerEvents:'none'}}
+          animate={{top: (scanLine*24+12)+'px'}} transition={{duration:0.3,ease:'linear'}}
+        />
       </div>
-      <div style={{fontSize:'0.7rem',color:'#67e8f9',textAlign:'center'}}>AES-256 Mesh node active (12 live links)</div>
+      <motion.div animate={{opacity: found ? 1 : 0}} transition={{duration:0.3}}
+        style={{padding:'7px 14px',background:'rgba(248,113,113,0.08)',borderTop:'1px solid rgba(248,113,113,0.2)',display:'flex',alignItems:'center',gap:8}}>
+        <span style={{color:'#f87171',fontSize:'0.6rem',fontFamily:'JetBrains Mono,monospace'}}>⚠ auth.js:5 · Plaintext password in console.log</span>
+      </motion.div>
     </div>
   );
 }
 
-function AIWorkshopSim() {
-  const [step, setStep] = useState(0);
+/* RESUME ROASTER: Animated resume card with critique callouts */
+function ResumeRoasterSim() {
+  const [activeNote, setActiveNote] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setStep(s => (s + 1) % 50), 100);
+    const id = setInterval(() => setActiveNote(n => (n+1)%3), 2400);
     return () => clearInterval(id);
   }, []);
-  const loss = (0.9 - (step / 50) * 0.8).toFixed(3);
-  const acc = (80.2 + (step / 50) * 18).toFixed(1);
+  const critiques = [
+    { pos:{top:'18%',left:'61%'}, color:'#f87171', text:'"Synergized KPIs" — what?' },
+    { pos:{top:'46%',left:'61%'}, color:'#fbbf24', text:'3 jobs in 1 year 🤔' },
+    { pos:{top:'68%',left:'61%'}, color:'#a78bfa', text:'No GitHub link??' },
+  ];
   return (
-    <div style={{width:'100%',height:'100%',background:'#050705',padding:20,fontFamily:'JetBrains Mono,monospace',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-      <div style={{fontSize:'0.65rem',color:'rgba(255,255,255,0.3)'}}>[ MODEL TRAINING SIMULATION ]</div>
-      <div style={{background:'rgba(0,0,0,0.6)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,padding:16,flex:1,display:'flex',flexDirection:'column',justifyContent:'center',gap:8}}>
-        <div style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.8)'}}>Epoch {Math.floor(step / 10) + 1} / 5</div>
-        <div style={{height:4,background:'rgba(255,255,255,0.08)',borderRadius:9999,overflow:'hidden'}}>
-          <div style={{height:'100%',width:((step % 10) * 10) + '%',background:'#10b981'}}/>
+    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,#0c0005,#12000a)',display:'flex',alignItems:'center',justifyContent:'flex-start',padding:'16px 0 16px 16px',position:'relative',overflow:'hidden'}}>
+      <div style={{width:'52%',height:'88%',background:'#0f0f12',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,padding:'14px 12px',display:'flex',flexDirection:'column',gap:8,flexShrink:0,zIndex:2}}>
+        <div style={{textAlign:'center',borderBottom:'1px solid rgba(255,255,255,0.07)',paddingBottom:8}}>
+          <div style={{fontFamily:'Barlow,sans-serif',fontWeight:700,color:'#fff',fontSize:'0.85rem'}}>John D. Overqualified</div>
+          <div style={{fontSize:'0.52rem',color:'rgba(255,255,255,0.4)',marginTop:2}}>Sr. Synergy Officer · no portfolio</div>
         </div>
-        <div style={{display:'flex',justifyContent: 'space-between',fontSize:'0.7rem',color:'#10b981',marginTop:4}}>
-          <span>Loss: {loss}</span>
-          <span>Accuracy: {acc}%</span>
+        <div style={{fontSize:'0.52rem',color:'rgba(255,255,255,0.6)',lineHeight:1.6}}>
+          <div style={{color:'rgba(255,255,255,0.3)',fontSize:'0.48rem',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:3}}>Summary</div>
+          Results-driven innovator who <span style={{color:'#f87171',textDecoration:'underline wavy',textDecorationColor:'rgba(248,113,113,0.5)'}}>synergized KPIs</span> to maximize stakeholder value.
+        </div>
+        <div style={{fontSize:'0.52rem',color:'rgba(255,255,255,0.6)',lineHeight:1.6}}>
+          <div style={{color:'rgba(255,255,255,0.3)',fontSize:'0.48rem',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:3}}>Experience</div>
+          <div>CTO @ StartupXYZ <span style={{color:'rgba(255,255,255,0.25)'}}>2023–2024</span></div>
+          <div style={{color:'rgba(255,255,255,0.3)',marginLeft:8}}>Led a team of 1 intern.</div>
+          <div style={{marginTop:3}}>CEO @ MyVision <span style={{color:'rgba(255,255,255,0.25)'}}>2022–2023</span></div>
+        </div>
+        <div style={{fontSize:'0.52rem',color:'rgba(255,255,255,0.6)'}}>
+          <div style={{color:'rgba(255,255,255,0.3)',fontSize:'0.48rem',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:3}}>Skills</div>
+          Excel, PowerPoint, Synergy
+        </div>
+        <div style={{marginTop:'auto',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <div style={{background:'rgba(248,113,113,0.1)',border:'1px solid rgba(248,113,113,0.3)',borderRadius:20,padding:'3px 10px',fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',color:'#f87171'}}>Score: 38 / 100</div>
         </div>
       </div>
-      <div style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.4)',textAlign:'center'}}>CUDA PyTorch drivers active</div>
+      {critiques.map((c,i) => (
+        <motion.div key={i} animate={{opacity: activeNote===i ? 1 : 0.12, x: activeNote===i ? 0 : 8}} transition={{duration:0.4}}
+          style={{position:'absolute',top:c.pos.top,left:c.pos.left,background:'rgba(0,0,0,0.85)',border:'1px solid '+c.color+'55',borderRadius:6,padding:'5px 9px',display:'flex',alignItems:'center',gap:5,whiteSpace:'nowrap',zIndex:3}}>
+          <span style={{color:c.color,fontFamily:'JetBrains Mono,monospace',fontSize:'0.55rem'}}>←</span>
+          <span style={{fontFamily:'Barlow,sans-serif',fontSize:'0.58rem',color:'rgba(255,255,255,0.9)'}}>{c.text}</span>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+/* EVALSYNC: Live dashboard with animated sparkline charts */
+function EvalSyncSim() {
+  const [chartData, setChartData] = useState(() => Array.from({length:20},(_,i)=>30+Math.sin(i*0.6)*20+Math.random()*10));
+  const [submissions, setSubmissions] = useState(247);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setChartData(d => [...d.slice(1), 30+Math.sin(Date.now()/600)*20+Math.random()*10]);
+      setSubmissions(s => s + Math.floor(Math.random()*3));
+    }, 800);
+    return () => clearInterval(id);
+  }, []);
+  const maxV = Math.max(...chartData); const minV = Math.min(...chartData);
+  const pts = chartData.map((v,i) => ((i/19)*100)+','+(100-((v-minV)/(maxV-minV||1))*80)).join(' ');
+  return (
+    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,#020a06,#030d08)',display:'flex',flexDirection:'column',padding:14,gap:10}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
+        {[
+          {label:'Submissions',value:String(submissions),color:'#34d399'},
+          {label:'Avg Score',value:'74.2%',color:'#60a5fa'},
+          {label:'Completion',value:'91%',color:'#a78bfa'},
+        ].map(k=>(
+          <div key={k.label} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:6,padding:'8px 10px'}}>
+            <div style={{fontSize:'0.45rem',color:'rgba(255,255,255,0.35)',fontFamily:'Barlow,sans-serif',textTransform:'uppercase',letterSpacing:'0.1em'}}>{k.label}</div>
+            <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'1rem',color:k.color,fontWeight:700,marginTop:2}}>{k.value}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{flex:1,background:'rgba(0,0,0,0.3)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,padding:'10px 12px',display:'flex',flexDirection:'column',gap:6}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <span style={{fontFamily:'Barlow,sans-serif',fontSize:'0.52rem',color:'rgba(255,255,255,0.4)'}}>Live Submission Rate</span>
+          <motion.span animate={{opacity:[1,0.3,1]}} transition={{duration:1.5,repeat:Infinity}}
+            style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'#34d399'}}>● LIVE</motion.span>
+        </div>
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{flex:1,display:'block'}}>
+          <defs>
+            <linearGradient id="chartgrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#34d399" stopOpacity="0.3"/>
+              <stop offset="100%" stopColor="#34d399" stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <polyline points={pts} fill="none" stroke="#34d399" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+          <polygon points={'0,100 '+pts+' 100,100'} fill="url(#chartgrad)"/>
+        </svg>
+      </div>
+      <div style={{display:'flex',gap:6}}>
+        {[{l:'DB',v:'ONLINE',c:'#34d399'},{l:'Redis',v:'42ms',c:'#34d399'},{l:'Auth',v:'JWT ✓',c:'#60a5fa'},{l:'WS',v:'140 conn',c:'#a78bfa'}].map(s=>(
+          <div key={s.l} style={{flex:1,textAlign:'center',padding:'4px 0',background:'rgba(255,255,255,0.02)',borderRadius:4,border:'1px solid rgba(255,255,255,0.05)'}}>
+            <div style={{fontSize:'0.42rem',color:'rgba(255,255,255,0.3)',fontFamily:'Barlow,sans-serif'}}>{s.l}</div>
+            <div style={{fontSize:'0.55rem',color:s.c,fontFamily:'JetBrains Mono,monospace',fontWeight:600}}>{s.v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* BUGHUNTER: Visual file tree with animated pulsing threat highlights */
+function BugHunterSim() {
+  const [scanIdx, setScanIdx] = useState(0);
+  const [pulseVuln, setPulseVuln] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setScanIdx(i => {
+        if (i >= 5) { setPulseVuln(true); return 0; }
+        setPulseVuln(false);
+        return i+1;
+      });
+    }, 600);
+    return () => clearInterval(id);
+  }, []);
+  const files = [
+    {name:'index.js', size:'4.2kb', status:'clean'},
+    {name:'auth.js', size:'8.1kb', status:'critical'},
+    {name:'server.js', size:'12kb', status:'warn'},
+    {name:'database.js', size:'6.8kb', status:'critical'},
+    {name:'utils.js', size:'3.1kb', status:'clean'},
+    {name:'routes.js', size:'5.5kb', status:'clean'},
+  ];
+  const statusColor = {clean:'#34d399', warn:'#fbbf24', critical:'#f87171'};
+  const statusLabel = {clean:'●', warn:'⚠', critical:'✕'};
+  return (
+    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,#08020c,#0c040d)',display:'flex',flexDirection:'column',padding:14,gap:10}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',color:'#a78bfa',letterSpacing:'0.12em'}}>BUGHUNTER-AI</span>
+        <div style={{display:'flex',gap:6,alignItems:'center'}}>
+          <motion.div animate={{scaleX: scanIdx > 0 ? scanIdx/6 : 0.02}} style={{width:60,height:3,background:'linear-gradient(90deg,#a78bfa,#f87171)',borderRadius:9999,transformOrigin:'left'}} transition={{duration:0.5}}/>
+          <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'rgba(255,255,255,0.3)'}}>{Math.round((scanIdx/6)*100)}%</span>
+        </div>
+      </div>
+      <div style={{flex:1,display:'flex',flexDirection:'column',gap:5}}>
+        {files.map((f,i) => {
+          const isScanning = i === scanIdx;
+          const isDone = i < scanIdx;
+          const col = statusColor[f.status];
+          return (
+            <motion.div key={f.name}
+              animate={{background: isScanning ? 'rgba(167,139,250,0.07)' : (f.status==='critical' && pulseVuln ? col+'08' : 'rgba(255,255,255,0.02)')}}
+              transition={{duration:0.3}}
+              style={{borderRadius:6,padding:'7px 10px',border:'1px solid '+(isScanning ? 'rgba(167,139,250,0.25)' : (isDone && f.status!=='clean' ? col+'22' : 'rgba(255,255,255,0.04)')),display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color: isScanning ? '#fff' : (isDone ? col : 'rgba(255,255,255,0.3)')}}>{isDone ? statusLabel[f.status] : (isScanning ? '→' : '·')}</span>
+              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.6rem',color: isScanning ? '#fff' : (isDone ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.2)'),flex:1}}>{f.name}</span>
+              <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'rgba(255,255,255,0.2)'}}>{f.size}</span>
+              {isDone && f.status !== 'clean' && (
+                <motion.span animate={{opacity: pulseVuln ? [1,0.4,1] : [1]}} transition={{duration:0.8,repeat:Infinity}}
+                  style={{fontFamily:'Barlow,sans-serif',fontSize:'0.48rem',color:col,padding:'1px 5px',background:col+'15',borderRadius:3}}>
+                  {f.status}
+                </motion.span>
+              )}
+            </motion.div>
+          );
+        })}
+      </div>
+      <div style={{display:'flex',gap:8,padding:'6px 0',borderTop:'1px solid rgba(255,255,255,0.06)'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',color:'#f87171'}}>2 Critical</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',color:'#fbbf24'}}>1 Warning</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',color:'#34d399',marginLeft:'auto'}}>3 Clean</span>
+      </div>
+    </div>
+  );
+}
+
+/* RESQNET: Radar dispatch map with animated response units */
+function ResqNetSim() {
+  const [radarAngle, setRadarAngle] = useState(0);
+  const [activeUnit, setActiveUnit] = useState(0);
+  useEffect(() => {
+    const id1 = setInterval(() => setRadarAngle(a => (a + 3) % 360), 50);
+    const id2 = setInterval(() => setActiveUnit(u => (u+1)%3), 2000);
+    return () => { clearInterval(id1); clearInterval(id2); };
+  }, []);
+  const incidents = [
+    { cx:100, cy:85, r:5, color:'#ef4444', label:'FIRE', unit:'R-1' },
+    { cx:220, cy:60, r:4, color:'#fbbf24', label:'FLOOD', unit:'R-2' },
+    { cx:170, cy:130, r:4, color:'#f87171', label:'CRASH', unit:'R-3' },
+  ];
+  const bcx = 170, bcy = 95;
+  const radarX = bcx + Math.cos((radarAngle-90)*Math.PI/180)*90;
+  const radarY = bcy + Math.sin((radarAngle-90)*Math.PI/180)*90;
+  return (
+    <div style={{width:'100%',height:'100%',background:'#020308',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <div style={{padding:'8px 14px',borderBottom:'1px solid rgba(103,232,249,0.1)',display:'flex',alignItems:'center',justifyContent:'space-between',background:'rgba(0,0,0,0.4)'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#67e8f9',letterSpacing:'0.15em'}}>RESQNET DISPATCH</span>
+        <motion.span animate={{opacity:[1,0.3,1]}} transition={{duration:1.2,repeat:Infinity}}
+          style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'#ef4444'}}>● 3 ACTIVE INCIDENTS</motion.span>
+      </div>
+      <div style={{flex:1,position:'relative',overflow:'hidden'}}>
+        <svg width="100%" height="100%" viewBox="0 0 340 175" style={{position:'absolute',inset:0}}>
+          {Array.from({length:15}).map((_,x)=>Array.from({length:9}).map((_,y)=>(
+            <circle key={x+'-'+y} cx={x*24+8} cy={y*20+8} r="0.8" fill="rgba(103,232,249,0.06)"/>
+          )))}
+          {[30,60,90].map(r=>(
+            <circle key={r} cx={bcx} cy={bcy} r={r} fill="none" stroke="rgba(103,232,249,0.08)" strokeWidth="0.8"/>
+          ))}
+          <line x1={bcx} y1={bcy} x2={radarX} y2={radarY} stroke="rgba(103,232,249,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
+          {incidents.map((inc,i) => (
+            <g key={i}>
+              <motion.circle cx={inc.cx} cy={inc.cy} r={inc.r+4} fill={inc.color} opacity="0.15"
+                animate={{r:[inc.r+4,inc.r+10,inc.r+4]}} transition={{duration:1.5,repeat:Infinity,delay:i*0.5}}/>
+              <circle cx={inc.cx} cy={inc.cy} r={inc.r} fill={inc.color} style={{filter:'drop-shadow(0 0 5px '+inc.color+')'}}/>
+              <text x={inc.cx+8} y={inc.cy+4} fill={inc.color} fontSize="5.5" fontFamily="JetBrains Mono,monospace">{inc.label}</text>
+              <motion.line x1={inc.cx} y1={inc.cy} x2={bcx} y2={bcy} stroke={inc.color} strokeWidth="0.5" strokeDasharray="3 3"
+                animate={{opacity: activeUnit===i ? [0.2,0.8,0.2] : [0.08]}} transition={{duration:0.8,repeat:Infinity}}/>
+            </g>
+          ))}
+          <circle cx={bcx} cy={bcy} r="6" fill="none" stroke="#67e8f9" strokeWidth="1.2"/>
+          <text x={bcx} y={bcy+16} textAnchor="middle" fill="#67e8f9" fontSize="5" fontFamily="JetBrains Mono,monospace">BASE</text>
+        </svg>
+      </div>
+      <div style={{padding:'6px 14px',borderTop:'1px solid rgba(103,232,249,0.08)',display:'flex',gap:8}}>
+        {incidents.map((inc,i)=>(
+          <motion.div key={i} animate={{borderColor: activeUnit===i ? inc.color : 'rgba(255,255,255,0.05)'}} transition={{duration:0.3}}
+            style={{flex:1,padding:'4px 6px',borderRadius:4,border:'1px solid rgba(255,255,255,0.05)',background:'rgba(255,255,255,0.02)'}}>
+            <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'rgba(255,255,255,0.35)'}}>{inc.unit}</div>
+            <div style={{fontFamily:'Barlow,sans-serif',fontSize:'0.52rem',color:inc.color}}>→ {inc.label}</div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* AI WORKSHOP: Neural network diagram with animated forward-pass signal */
+function AIWorkshopSim() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick(t => t + 1), 90);
+    return () => clearInterval(id);
+  }, []);
+  const layers = [
+    { x:45, ys:[25,60,95,130] },
+    { x:135, ys:[15,50,85,120,155] },
+    { x:225, ys:[35,80,125] },
+    { x:305, ys:[55,105] },
+  ];
+  const CYCLE = 60;
+  const phase = tick % CYCLE;
+  const activeLayer = Math.floor((phase / CYCLE) * (layers.length-1));
+  const loss = (0.9 - Math.min(tick/400,1)*0.85).toFixed(4);
+  const acc = (60 + Math.min(tick/400,1)*35).toFixed(1);
+  return (
+    <div style={{width:'100%',height:'100%',background:'linear-gradient(135deg,#030608,#040a06)',display:'flex',flexDirection:'column',padding:14,gap:10}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#10b981',letterSpacing:'0.1em'}}>NEURAL NETWORK · FORWARD PASS</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'rgba(255,255,255,0.3)'}}>epoch {Math.floor(tick/CYCLE)+1}</span>
+      </div>
+      <div style={{flex:1,position:'relative'}}>
+        <svg width="100%" height="100%" viewBox="0 0 340 180" style={{position:'absolute',inset:0}}>
+          {[{x:45,l:'Input'},{x:135,l:'Hidden 1'},{x:225,l:'Hidden 2'},{x:305,l:'Output'}].map(({x,l})=>(
+            <text key={l} x={x} y={172} textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="5" fontFamily="Barlow,sans-serif">{l}</text>
+          ))}
+          {layers.slice(0,-1).map((fromLayer, li) =>
+            fromLayer.ys.map(fy =>
+              layers[li+1].ys.map((ty,ti) => (
+                <line key={li+'-'+fy+'-'+ti}
+                  x1={fromLayer.x} y1={fy}
+                  x2={layers[li+1].x} y2={ty}
+                  stroke={li === activeLayer ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.03)'}
+                  strokeWidth={li === activeLayer ? 0.7 : 0.4}
+                  style={{transition:'all 0.25s'}}
+                />
+              ))
+            )
+          )}
+          {layers.map((layer, li) =>
+            layer.ys.map((y,ni) => {
+              const isActive = li <= activeLayer;
+              const isCurrent = li === activeLayer;
+              const col = isCurrent ? '#10b981' : (isActive ? '#6ee7b7' : 'rgba(255,255,255,0.12)');
+              return (
+                <g key={li+'-'+ni}>
+                  {isCurrent && <circle cx={layer.x} cy={y} r={9} fill="#10b981" opacity="0.08"/>}
+                  <circle cx={layer.x} cy={y} r={5}
+                    fill={isActive ? col+'22' : 'transparent'}
+                    stroke={col} strokeWidth={isCurrent ? 1.2 : 0.7}
+                    style={{filter: isCurrent ? 'drop-shadow(0 0 4px #10b981)' : 'none', transition:'all 0.25s'}}/>
+                </g>
+              );
+            })
+          )}
+          {activeLayer < layers.length-1 && layers[activeLayer].ys.map((fy,i)=>{
+            const progress = (phase % (CYCLE/layers.length)) / (CYCLE/layers.length);
+            const nextLayer = layers[activeLayer+1];
+            const ty_target = nextLayer.ys[i % nextLayer.ys.length];
+            const tx = layers[activeLayer].x + (nextLayer.x - layers[activeLayer].x)*progress;
+            const ty = fy + (ty_target - fy)*progress;
+            return <circle key={i} cx={tx} cy={ty} r={2} fill="#10b981" style={{filter:'drop-shadow(0 0 3px #10b981)'}}/>;
+          })}
+        </svg>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        {[
+          {label:'Loss',value:loss,color:'#f87171'},
+          {label:'Accuracy',value:acc+'%',color:'#10b981'},
+          {label:'LR',value:'0.001',color:'rgba(255,255,255,0.4)'},
+          {label:'GPU',value:'CUDA ✓',color:'#60a5fa'},
+        ].map(m=>(
+          <div key={m.label} style={{flex:1,background:'rgba(255,255,255,0.02)',borderRadius:5,padding:'5px 8px',border:'1px solid rgba(255,255,255,0.05)'}}>
+            <div style={{fontFamily:'Barlow,sans-serif',fontSize:'0.42rem',color:'rgba(255,255,255,0.3)',textTransform:'uppercase'}}>{m.label}</div>
+            <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.65rem',color:m.color,fontWeight:700,marginTop:1}}>{m.value}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -619,6 +877,7 @@ const simulations = {
   'resqnet': ResqNetSim,
   'ai-workshop': AIWorkshopSim
 };
+
 
 /* ── LiveDemosSection component ── */
 
