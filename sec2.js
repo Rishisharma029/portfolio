@@ -49,9 +49,23 @@ function TechSection(){
 
 /* ── Interactive Terminal ── */
 const COMMANDS = {
-  whoami: ['Rishi Sharma','──────────────────────','Role     : BCA Student, Year 2','Focus    : Full-Stack Dev + Cybersecurity','School   : Aggarwal Public School (CBSE)','College  : BCA General CS (2025 – Present)','Dream    : Multi-national business empire 🚀'],
+  whoami: ['Rishi Sharma','──────────────────────','Role     : BCA Student, Year 2','Focus    : Full-Stack Dev + Cybersecurity + AI','School   : Aggarwal Public School (CBSE)','College  : BCA General CS (2025 – Present)','Dream    : Multi-national business empire 🚀'],
   'skills --list': ['SKILL              LEVEL','──────────────────────','React / Next.js    ████████░░  85%','Node.js            ███████░░░  78%','Python             ███████░░░  72%','Linux              ████████░░  80%','Ethical Hacking    ██████░░░░  65%','Git / DevOps       █████████░  88%'],
-  'projects --count': ['PROJECTS SHIPPED  : 5','HACKATHONS        : 7','NOTABLE           : EvacSync, Load Balancer App','STATUS            : 2 more in stealth mode... 🕵️'],
+  'projects --count': [
+    'PROJECTS SHIPPED  : 8+',
+    '──────────────────────',
+    'MAIN  › Visuals AI System Designer',
+    'MAIN  › DevInspect-AI',
+    'MAIN  › AI Resume Roaster',
+    'MAIN  › EvalSync System',
+    'MAIN  › Load Balancer App',
+    'LAB   › BugHunter-AI',
+    'LAB   › ResqNet',
+    'LAB   › AI Engineering Workshop',
+    '──────────────────────',
+    'HACKATHONS        : 7',
+    'STATUS            : 1 more in stealth mode... 🕵️'
+  ],
   help: ['Available commands:','  whoami          — about me','  skills --list   — tech proficiency','  projects --count — project stats','  clear           — clear terminal'],
   clear: ['__CLEAR__'],
 };
@@ -152,7 +166,7 @@ function Terminal(){
 
 /* ── Stats Section ── */
 const stats=[
-  {val:5,suffix:'+',label:'Projects Shipped',sub:'Real-world production apps'},
+  {val:8,suffix:'+',label:'Projects Shipped',sub:'AI tools, platforms & production apps'},
   {val:7,suffix:'',label:'Hackathons',sub:'Competed & built under pressure'},
   {val:2,suffix:'',label:'Board Approvals',sub:'CBSE & UP Board approved'},
   {val:2025,suffix:'',label:'Year Started BCA',sub:'Aggarwal Public School → BCA'},
