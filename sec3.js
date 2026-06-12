@@ -2,13 +2,26 @@
 
 /* ── Journey Timeline ── */
 const journey = [
-  {year:'2023', title:'First Line of Code', desc:'Picked up programming — HTML, CSS, JavaScript. Built first pages and fell in love with the craft.', side:'left'},
-  {year:'2025', title:'Completed 12th Grade', desc:'Graduated from Aggarwal Public School, CBSE board. Decided to pursue BCA to go all-in on computer science.', side:'right'},
-  {year:'2025', title:'Joined BCA', desc:'Enrolled in BCA (General CS). Started exploring React, Node.js, and building real applications from day one.', side:'left'},
-  {year:'2026', title:'Built Load Balancer App', desc:'Engineered a complete load balancer approved for CBSE & UP Board — production-grade with health checks and failover.', side:'right'},
-  {year:'2026', title:'Launched EvacSync', desc:'Built and launched EvacSync — a full evacuation management platform with real-time sync, dashboards, and role-based access.', side:'left'},
-  {year:'2026', title:'Deep-Diving into Cybersecurity', desc:'Actively learning ethical hacking, penetration testing, CTF challenges, and network security. Building toward mastery.', side:'right'},
-  {year:'Now →', title:'Building What\'s Next', desc:'2nd year BCA underway. New projects, new skills, new domains. The empire is being built — one system at a time.', side:'left'},
+  /* ── Early Start ── */
+  {year:'2023', title:'First Line of Code', desc:'Picked up programming — HTML, CSS, JavaScript. Built first pages and fell in love with the craft.', side:'left', tag:null},
+  {year:'2025', title:'Completed 12th Grade', desc:'Graduated from Aggarwal Public School, CBSE board. Decided to pursue BCA to go all-in on computer science.', side:'right', tag:null},
+  {year:'2025', title:'Joined BCA', desc:'Enrolled in BCA (General CS). Started exploring React, Node.js, and building real applications from day one.', side:'left', tag:null},
+
+  /* ── Main Projects ── */
+  {year:'2026', title:'Load Balancer App', desc:'Production-grade load balancer approved for CBSE & UP Board — traffic distribution, health checks, and automatic failover built from scratch.', side:'right', tag:'Main'},
+  {year:'2026', title:'EvalSync System', desc:'A complete evaluation and management platform with live sync, role-based dashboards, and automated reporting workflows.', side:'left', tag:'Main'},
+  {year:'2026', title:'Visuals AI System Designer', desc:'AI-powered platform that auto-generates visual system architecture and infrastructure diagrams from natural language input.', side:'right', tag:'Main'},
+  {year:'2026', title:'DevInspect-AI', desc:'AI-powered developer assistant — deep code inspection, real-time error detection, and code quality insights for any codebase.', side:'left', tag:'Main'},
+  {year:'2026', title:'AI Resume Roaster', desc:'Brutally honest, AI-driven resume feedback platform — actionable critique and scoring to help candidates stand out in any job market.', side:'right', tag:'Main'},
+
+  /* ── Lab & Research ── */
+  {year:'2026', title:'BugHunter-AI', desc:'AI-powered vulnerability scanner that statically and dynamically analyzes codebases to surface hidden security bugs and exploits.', side:'left', tag:'Lab'},
+  {year:'2026', title:'ResqNet', desc:'Disaster and emergency coordination platform for real-time response management, team dispatch, and incident tracking during crisis events.', side:'right', tag:'Lab'},
+  {year:'2026', title:'AI Engineering Workshop', desc:'Open-source repo of AI experiments, workshop code, and research projects exploring cutting-edge machine learning concepts and implementations.', side:'left', tag:'Lab'},
+
+  /* ── Deep Focus ── */
+  {year:'2026', title:'Deep-Diving into Cybersecurity', desc:'Actively learning ethical hacking, penetration testing, CTF challenges, and network security. Building toward mastery.', side:'right', tag:null},
+  {year:'Now →', title:'Building What\'s Next', desc:'2nd year BCA underway. New projects, new skills, new domains. The empire is being built — one system at a time.', side:'left', tag:null},
 ];
 
 function TimelineSection(){
@@ -23,21 +36,34 @@ function TimelineSection(){
       <div style={{position:'relative',maxWidth:800,margin:'0 auto'}}>
         {/* Vertical line */}
         <div style={{position:'absolute',left:'50%',top:0,bottom:0,width:2,background:'linear-gradient(to bottom,transparent,rgba(255,255,255,0.12),rgba(255,255,255,0.12),transparent)',transform:'translateX(-50%)'}}/>
-        {journey.map((j,i)=>(
-          <ScrollReveal key={i} delay={0.1*i}>
-            <div style={{display:'flex',justifyContent:j.side==='left'?'flex-start':'flex-end',marginBottom:40,position:'relative'}}>
-              {/* Dot */}
-              <div style={{position:'absolute',left:'50%',top:20,transform:'translateX(-50%)',width:14,height:14,borderRadius:'50%',background:'#fff',boxShadow:'0 0 16px rgba(255,255,255,0.4)',zIndex:2}}/>
+        {journey.map((j,i)=>{
+          const dotColor = j.tag==='Main'?'#6ee7b7':j.tag==='Lab'?'#a78bfa':'#fff';
+          const dotShadow = j.tag==='Main'?'0 0 14px rgba(110,231,183,0.6)':j.tag==='Lab'?'0 0 14px rgba(167,139,250,0.6)':'0 0 16px rgba(255,255,255,0.4)';
+          const badgeStyle = j.tag==='Main'
+            ? {color:'#6ee7b7',background:'rgba(110,231,183,0.08)',border:'1px solid rgba(110,231,183,0.3)'}
+            : j.tag==='Lab'
+            ? {color:'#a78bfa',background:'rgba(167,139,250,0.08)',border:'1px solid rgba(167,139,250,0.3)'}
+            : null;
+          return(
+          <ScrollReveal key={i} delay={0.08*i}>
+            <div style={{display:'flex',justifyContent:j.side==='left'?'flex-start':'flex-end',marginBottom:36,position:'relative'}}>
+              {/* Spine dot — colored for project entries */}
+              <div style={{position:'absolute',left:'50%',top:22,transform:'translateX(-50%)',width:14,height:14,borderRadius:'50%',background:dotColor,boxShadow:dotShadow,zIndex:2}}/>
               {/* Card */}
               <div className="liquid-glass"
                 style={{borderRadius:'1.25rem',padding:24,width:'44%',position:'relative'}}>
-                <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'rgba(255,255,255,0.4)',fontSize:'0.85rem',letterSpacing:'1px'}}>{j.year}</span>
-                <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'1.3rem',lineHeight:1.1,marginTop:4,letterSpacing:'-0.5px'}}>{j.title}</h3>
-                <p style={{marginTop:8,fontSize:'0.8rem',color:'rgba(255,255,255,0.7)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.6}}>{j.desc}</p>
+                {/* Project type badge */}
+                {j.tag&&(
+                  <span style={{position:'absolute',top:14,right:14,fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',letterSpacing:'0.18em',textTransform:'uppercase',borderRadius:4,padding:'2px 7px',...badgeStyle}}>{j.tag}</span>
+                )}
+                <span style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'rgba(255,255,255,0.4)',fontSize:'0.82rem',letterSpacing:'1px'}}>{j.year}</span>
+                <h3 style={{fontFamily:'"Instrument Serif",serif',fontStyle:'italic',color:'#fff',fontSize:'1.25rem',lineHeight:1.1,marginTop:4,letterSpacing:'-0.5px',paddingRight:j.tag?48:0}}>{j.title}</h3>
+                <p style={{marginTop:8,fontSize:'0.79rem',color:'rgba(255,255,255,0.7)',fontFamily:'Barlow,sans-serif',fontWeight:300,lineHeight:1.65}}>{j.desc}</p>
               </div>
             </div>
           </ScrollReveal>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
