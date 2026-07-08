@@ -1,6 +1,6 @@
 <div align="center">
 
-# :rocket: Rishi Sharma — Portfolio OS v2.7.0
+# :rocket: Rishi Sharma — Portfolio OS v2.8.0
 
 ### *"Building the Future One Line of Code"*
 

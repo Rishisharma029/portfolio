@@ -4,7 +4,7 @@
 
 | Version | Supported |
 |---|---|
-| Portfolio OS v2.7.x | :white_check_mark: |
+| Portfolio OS v2.8.x | :white_check_mark: |
 | Earlier versions | :x: |
 
 ## Reporting a Vulnerability

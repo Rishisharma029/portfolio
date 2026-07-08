@@ -87,7 +87,7 @@ body{background:#000;font-family:'Barlow',sans-serif;color:#fff;overflow-x:hidde
   <div id="loader-scanlines"></div>
   <div id="loader-corner-tl"></div><div id="loader-corner-tr"></div>
   <div id="loader-corner-bl"></div><div id="loader-corner-br"></div>
-  <div class="auth-label">Portfolio OS v2.7.0 — Initializing</div>
+  <div class="auth-label">Portfolio OS v2.8.0 — Initializing</div>
   <div id="auth-text"></div>
   <div id="access-granted">Access Granted.</div>
   <div class="auth-bar"><div class="auth-bar-fill" id="auth-bar-fill"></div></div>
@@ -959,6 +959,126 @@ const demoProjects = [
       'Loading training datasets (MNIST/IMDB)...',
       'Ready ✓ Live notebooks loaded successfully.'
     ]
+  },
+  {
+    id: 'handwritten-ocr',
+    name: 'Handwritten Text OCR',
+    url: 'https://github.com/Rishisharma029/Handwritten-Text-Recognition-System',
+    badge: 'Main',
+    tagline: 'Offline handwriting text extraction and neural parsing.',
+    stats: {
+      'Model Type': 'ResNet + CTC Loss',
+      'Character Set': 'Alphanumeric',
+      'Accuracy': '96.8%',
+      'GPU Memory': '2.1 GB'
+    },
+    terminalBoot: [
+      '$ handwritten-ocr --predict image.png',
+      'Loading handwriting OCR weight matrix...',
+      'Segmenting text line contours...',
+      'Running CTC beam search decoder...',
+      'Ready ✓ Decoded: "Building the future..." (97% conf).'
+    ]
+  },
+  {
+    id: 'crop-disease',
+    name: 'Crop Disease Classifier',
+    url: 'https://github.com/Rishisharma029/Crop-Disease-Detection-using-CNN',
+    badge: 'Main',
+    tagline: 'Plant leaf pathology detection using convolutional networks.',
+    stats: {
+      'CNN Backbone': 'MobileNetV2',
+      'Supported Plants': 'Tomato, Potato, Apple',
+      'Inference Time': '12ms',
+      'Classes': '38 Diseases'
+    },
+    terminalBoot: [
+      '$ python detect.py --image leaf.jpg',
+      'Importing PyTorch & torchvision...',
+      'Preprocessing leaf image array (224x224)...',
+      'Running MobileNetV2 forward pass...',
+      'Ready ✓ Identified: Tomato Late Blight (Confidence: 99.2%).'
+    ]
+  },
+  {
+    id: 'campus-os',
+    name: 'CampusOS',
+    url: 'https://github.com/Rishisharma029/CampusOS',
+    badge: 'Main',
+    tagline: 'Comprehensive college academic and administration portal.',
+    stats: {
+      'Active Users': '1,200+ Students',
+      'Core Modules': 'Grades, Gatepass, Attendance',
+      'Stack': 'Next.js, Node.js, MySQL',
+      'Auth': 'RFID + SSO integration'
+    },
+    terminalBoot: [
+      '$ npm run dev --project campus-os',
+      'Starting CampusOS development server...',
+      'Mapping local RFID reader modules...',
+      'Hydrating NextJS student profiles index...',
+      'Ready ✓ Portal listening on http://localhost:3000.'
+    ]
+  },
+  {
+    id: 'agrivision',
+    name: 'AGRIVISION',
+    url: 'https://github.com/Rishisharma029/AGRIVISION',
+    badge: 'Lab',
+    tagline: 'Smart agriculture monitoring and drone telemetry dashboard.',
+    stats: {
+      'Drone Link': '915MHz Telemetry',
+      'Sensors': 'Multispectral, Soil Moisture',
+      'Field Area': '120 Hectares',
+      'AI Diagnosis': 'Nitrogen deficiency alert'
+    },
+    terminalBoot: [
+      '$ agrivision --connect-drone --telemetry',
+      'Establishing drone radio handshakes...',
+      'Streaming multispectral crop NDVI bands...',
+      'Calculating field moisture indices...',
+      'Ready ✓ Remote telemetry active. Health Index: 0.82.'
+    ]
+  },
+  {
+    id: 'solarflare-ai',
+    name: 'SOLARFLARE AI',
+    url: 'https://github.com/Rishisharma029/SOLARFLARE-AI',
+    badge: 'Lab',
+    tagline: 'Predictive neural analysis of solar solar-flares and space weather.',
+    stats: {
+      'Dataset': 'NASA SOHO/SDO images',
+      'Forecast Horizon': '24 Hours',
+      'AI Model': 'LSTM + 3D CNN',
+      'Threat Level': 'Moderate (M-Class)'
+    },
+    terminalBoot: [
+      '$ space-weather --forecast --alert-level',
+      'Connecting to NOAA space weather servers...',
+      'Fetching raw solar corona images...',
+      'Running prediction on solar flare patterns...',
+      'Ready ✓ Warning: 65% chance of M-Class solar flare in next 12h.'
+    ]
+  },
+  {
+    id: 'leetcodes',
+    name: 'LeetCodes Solutions',
+    url: 'https://github.com/Rishisharma029/leetcodes',
+    badge: 'Lab',
+    tagline: 'Optimized algorithms and data structures journal.',
+    stats: {
+      'Solved': '150+ Problems',
+      'Focus': 'Graphs, DP, Recursion',
+      'Languages': 'C++, Java, Python',
+      'Rating': 'Top 12% Runtime'
+    },
+    terminalBoot: [
+      '$ lc-test --run two-sum.cpp',
+      'Parsing code structure for two-sum.cpp...',
+      'Compiling with g++ -O3 compiler flags...',
+      'Injecting LeetCode official test vectors...',
+      'Ready ✓ All 58/58 test cases passed. Runtime: 0ms.'
+    ]
   }
 ];
 
@@ -1408,6 +1528,312 @@ function AIWorkshopSim() {
   );
 }
 
+/* HANDWRITTEN OCR: Bounding box scanning and live text decoding */
+function HandwrittenOcrSim() {
+  const [text, setText] = useState('');
+  const [idx, setIdx] = useState(0);
+  const [scanning, setScanning] = useState(true);
+  const sample = "Building the future...";
+  useEffect(() => {
+    const id = setInterval(() => {
+      setScanning(true);
+      setTimeout(() => {
+        setScanning(false);
+        setIdx(i => (i + 1) % (sample.length + 1));
+      }, 500);
+    }, 1200);
+    return () => clearInterval(id);
+  }, []);
+  useEffect(() => {
+    setText(sample.slice(0, idx));
+  }, [idx]);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#0a0a0f',display:'flex',flexDirection:'column',padding:16,position:'relative',overflow:'hidden'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#a78bfa',letterSpacing:'0.1em'}}>OCR NEURAL SCANNER</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:scanning?'#a78bfa':'#34d399'}}>{scanning?'SCANNING...':'DONE'}</span>
+      </div>
+      <div style={{flex:1,border:'1px solid rgba(255,255,255,0.06)',borderRadius:8,background:'rgba(0,0,0,0.3)',position:'relative',overflow:'hidden',display:'flex',flexDirection:'column',padding:12}}>
+        <div style={{flex:1,position:'relative',borderBottom:'1px solid rgba(255,255,255,0.04)',minHeight:50}}>
+          <svg width="100%" height="100%" viewBox="0 0 200 60" style={{opacity:0.6}}>
+            <path d="M10,25 Q15,10 25,25 T40,25 T55,25 Q70,35 85,20 T110,20 T135,25 T160,20 T180,25" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+          {scanning && (
+            <motion.div
+              style={{position:'absolute',left:0,right:0,height:2,background:'rgba(167,139,250,0.8)',boxShadow:'0 0 10px #a78bfa',pointerEvents:'none'}}
+              animate={{top:['0%','100%']}} transition={{duration:0.5,ease:'linear',repeat:Infinity}}
+            />
+          )}
+        </div>
+        <div style={{marginTop:8,fontFamily:'JetBrains Mono,monospace',fontSize:'0.65rem',color:'#fff',minHeight:24}}>
+          <span style={{color:'rgba(255,255,255,0.3)'}}>&gt; Recognized: </span>
+          <span>{text}</span>
+          <span className="cursor-blink"/>
+        </div>
+      </div>
+      <div style={{marginTop:10,display:'flex',justifyContent:'space-between',fontSize:'0.52rem',fontFamily:'JetBrains Mono,monospace',color:'rgba(255,255,255,0.35)'}}>
+        <span>Confidence: 96.8%</span>
+        <span>CTC Loss: 0.042</span>
+      </div>
+    </div>
+  );
+}
+
+/* CROP DISEASE: Leaf pathology visualization with bounding boxes and classifier */
+function CropDiseaseSim() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick(t => t + 1), 2000);
+    return () => clearInterval(id);
+  }, []);
+  const spots = [
+    {cx:80, cy:60, r:8, label:'Infection A: Early Blight'},
+    {cx:180, cy:90, r:6, label:'Infection B: Rust Spot'},
+    {cx:130, cy:110, r:7, label:'Infection C: Early Blight'}
+  ];
+  const activeSpot = tick % spots.length;
+  return (
+    <div style={{width:'100%',height:'100%',background:'#080d0a',display:'flex',flexDirection:'column',padding:14,position:'relative',overflow:'hidden'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#34d399',letterSpacing:'0.1em'}}>CNN LEAF DIAGNOSIS</span>
+        <motion.span animate={{opacity:[1,0.3,1]}} transition={{duration:1.5,repeat:Infinity}} style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'#f87171'}}>● ANALYZING FIELD DATA</motion.span>
+      </div>
+      <div style={{flex:1,position:'relative',border:'1px solid rgba(255,255,255,0.06)',borderRadius:8,background:'rgba(0,0,0,0.3)',overflow:'hidden'}}>
+        <svg width="100%" height="100%" viewBox="0 0 260 140" style={{position:'absolute',inset:0}}>
+          <path d="M50,70 C100,20 180,20 220,70 C180,120 100,120 50,70 Z" fill="rgba(52,211,153,0.06)" stroke="#34d399" strokeWidth="1.2"/>
+          <path d="M50,70 Q130,70 220,70" fill="none" stroke="rgba(52,211,153,0.3)" strokeWidth="1"/>
+          <path d="M100,70 Q120,50 140,40" fill="none" stroke="rgba(52,211,153,0.2)" strokeWidth="0.8"/>
+          <path d="M130,70 Q150,90 170,100" fill="none" stroke="rgba(52,211,153,0.2)" strokeWidth="0.8"/>
+          <path d="M160,70 Q180,50 200,40" fill="none" stroke="rgba(52,211,153,0.2)" strokeWidth="0.8"/>
+          {spots.map((s,i) => (
+            <g key={i}>
+              <circle cx={s.cx} cy={s.cy} r={s.r} fill="#ef4444" opacity={activeSpot===i ? 0.3 : 0.1}/>
+              <circle cx={s.cx} cy={s.cy} r={2} fill="#ef4444"/>
+              {activeSpot===i && (
+                <>
+                  <rect x={s.cx-s.r-4} y={s.cy-s.r-4} width={s.r*2+8} height={s.r*2+8} fill="none" stroke="#ef4444" strokeWidth="0.8" strokeDasharray="2 2"/>
+                  <line x1={s.cx} y1={s.cy} x2={130} y2={10} stroke="#ef4444" strokeWidth="0.5" strokeDasharray="1 2"/>
+                </>
+              )}
+            </g>
+          ))}
+          <rect x="70" y="5" width="120" height="15" rx="3" fill="rgba(0,0,0,0.8)" stroke="#ef4444" strokeWidth="0.5"/>
+          <text x="130" y="15" textAnchor="middle" fill="#ef4444" fontSize="5.5" fontFamily="JetBrains Mono,monospace" fontWeight="600">{spots[activeSpot].label.toUpperCase()}</text>
+        </svg>
+      </div>
+      <div style={{marginTop:10,display:'flex',gap:8}}>
+        {[{l:'Inference',v:'12ms'},{l:'Classes',v:'38 Categories'},{l:'Confidence',v:'99.2%'}].map(s=>(
+          <div key={s.l} style={{flex:1,background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:4,padding:'4px 6px',textAlign:'center'}}>
+            <div style={{fontSize:'0.42rem',color:'rgba(255,255,255,0.3)',fontFamily:'Barlow,sans-serif'}}>{s.l}</div>
+            <div style={{fontSize:'0.58rem',color:'#34d399',fontFamily:'JetBrains Mono,monospace',fontWeight:600}}>{s.v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* CAMPUS-OS: RFID reader events logs + system state dashboards */
+function CampusOsSim() {
+  const [time, setTime] = useState('');
+  const [logs, setLogs] = useState([]);
+  useEffect(() => {
+    const clock = setInterval(() => {
+      const d = new Date();
+      setTime(d.toTimeString().split(' ')[0]);
+    }, 1000);
+    const mockLogs = [
+      "RFID Gate 01: Student ID 2025114 checked IN",
+      "RFID Gate 02: Gatepass #482 authorized",
+      "DB Sync: Hydrated 12 Grade Sheets",
+      "SSO Auth: Session token refreshed for Admin"
+    ];
+    let idx = 0;
+    const printer = setInterval(() => {
+      setLogs(prev => [mockLogs[idx], ...prev.slice(0, 2)]);
+      idx = (idx + 1) % mockLogs.length;
+    }, 1500);
+    return () => { clearInterval(clock); clearInterval(printer); };
+  }, []);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#050a0e',display:'flex',flexDirection:'column',padding:14,gap:8}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',borderBottom:'1px solid rgba(255,255,255,0.06)',paddingBottom:6}}>
+        <div style={{display:'flex',alignItems:'center',gap:6}}>
+          <div style={{width:6,height:6,borderRadius:'50%',background:'#60a5fa',boxShadow:'0 0 6px #60a5fa'}}/>
+          <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#60a5fa',letterSpacing:'0.1em'}}>CAMPUS-OS CORE</span>
+        </div>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.55rem',color:'rgba(255,255,255,0.4)'}}>{time}</span>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:8}}>
+        <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.04)',borderRadius:6,padding:'8px 10px'}}>
+          <div style={{fontSize:'0.45rem',color:'rgba(255,255,255,0.3)',fontFamily:'Barlow,sans-serif'}}>ACTIVE GATEPASSES</div>
+          <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.9rem',color:'#34d399',fontWeight:700,marginTop:2}}>42 Active</div>
+        </div>
+        <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.04)',borderRadius:6,padding:'8px 10px'}}>
+          <div style={{fontSize:'0.45rem',color:'rgba(255,255,255,0.3)',fontFamily:'Barlow,sans-serif'}}>SSO SESSIONS</div>
+          <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.9rem',color:'#60a5fa',fontWeight:700,marginTop:2}}>1,142 online</div>
+        </div>
+      </div>
+      <div style={{flex:1,background:'rgba(0,0,0,0.3)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,padding:10,display:'flex',flexDirection:'column',gap:4,overflow:'hidden'}}>
+        <div style={{fontFamily:'Barlow,sans-serif',fontSize:'0.5rem',color:'rgba(255,255,255,0.35)',textTransform:'uppercase',marginBottom:4}}>Live Event Logs</div>
+        {logs.map((log,i)=>(
+          <motion.div key={i+log} initial={{opacity:0,x:-4}} animate={{opacity:1,x:0}} transition={{duration:0.25}}
+            style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',color:log.includes('Gate')?'#34d399':'rgba(255,255,255,0.7)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+            &gt; {log}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* AGRIVISION: Multispectral field visualizer + scanning drone coordinate tracking */
+function AgriVisionSim() {
+  const [telemetry, setTelemetry] = useState({x:20, y:20, index:0.82, moisture:'44%'});
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTelemetry(t => {
+        const nx = t.x >= 280 ? 20 : t.x + 20;
+        const ny = t.x >= 280 ? (t.y >= 120 ? 20 : t.y + 15) : t.y;
+        return {
+          x: nx,
+          y: ny,
+          index: (0.78 + Math.random()*0.08).toFixed(2),
+          moisture: (40 + Math.floor(Math.random()*8)) + '%'
+        };
+      });
+    }, 400);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#040605',display:'flex',flexDirection:'column',padding:14,position:'relative',overflow:'hidden'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#10b981',letterSpacing:'0.1em'}}>AGRIVISION MULTISPECTRAL</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'#60a5fa'}}>TELEMETRY: ACTIVE</span>
+      </div>
+      <div style={{flex:1,border:'1px solid rgba(255,255,255,0.06)',borderRadius:8,background:'rgba(0,0,0,0.3)',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:'repeat(6,1fr)',gridTemplateRows:'repeat(4,1fr)',gap:1,opacity:0.25}}>
+          {Array.from({length:24}).map((_,i)=>(
+            <div key={i} style={{background:i===14?'#ef4444':(i%5===0?'#fbbf24':'#10b981')}}/>
+          ))}
+        </div>
+        <motion.div
+          style={{position:'absolute',left:telemetry.x-15,top:telemetry.y-15,width:30,height:30,border:'0.8px solid #60a5fa',borderRadius:3,pointerEvents:'none',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 0 6px rgba(96,165,250,0.3)'}}
+          transition={{duration:0.35,ease:'linear'}}
+        >
+          <div style={{width:4,height:4,borderRadius:'50%',background:'#60a5fa'}}/>
+        </motion.div>
+        <svg width="100%" height="100%" style={{position:'absolute',inset:0,pointerEvents:'none'}}>
+          <line x1="0" y1="0" x2={telemetry.x} y2={telemetry.y} stroke="rgba(96,165,250,0.15)" strokeWidth="0.5"/>
+        </svg>
+      </div>
+      <div style={{marginTop:10,display:'flex',gap:6}}>
+        {[{l:'Field Index',v:telemetry.index,c:'#10b981'},{l:'Soil Moisture',v:telemetry.moisture,c:'#60a5fa'},{l:'Deficiencies',v:'Nitrogen (1)',c:'#ef4444'}].map(s=>(
+          <div key={s.l} style={{flex:1,background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:4,padding:'4px 6px',textAlign:'center'}}>
+            <div style={{fontSize:'0.42rem',color:'rgba(255,255,255,0.3)',fontFamily:'Barlow,sans-serif'}}>{s.l}</div>
+            <div style={{fontSize:'0.58rem',color:s.c,fontFamily:'JetBrains Mono,monospace',fontWeight:600}}>{s.v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* SOLARFLARE AI: Sun radiation core glow + X-Ray flux telemetry graph */
+function SolarFlareSim() {
+  const [pulse, setPulse] = useState(0);
+  const [flux, setFlux] = useState(() => Array.from({length:20}, (_,i)=>10+Math.random()*5));
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPulse(p => p + 1);
+      setFlux(f => {
+        const isFlare = Math.random() > 0.8;
+        const newVal = isFlare ? 45 + Math.random()*25 : 10 + Math.random()*8;
+        return [...f.slice(1), newVal];
+      });
+    }, 600);
+    return () => clearInterval(id);
+  }, []);
+  const maxV = 80; const minV = 0;
+  const pts = flux.map((v,i) => ((i/19)*100)+','+(80-((v-minV)/(maxV-minV))*70)).join(' ');
+  const isHigh = flux[flux.length-1] > 35;
+  return (
+    <div style={{width:'100%',height:'100%',background:'#0a0302',display:'flex',flexDirection:'column',padding:14,gap:10}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#f97316',letterSpacing:'0.1em'}}>SOLAR CORONA MONITOR</span>
+        <motion.span animate={{opacity:isHigh?[1,0.3,1]:[0.6]}} transition={{duration:0.6,repeat:Infinity}}
+          style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:isHigh?'#ef4444':'#f97316'}}>{isHigh?'⚠ CRITICAL FLUX':'NORMAL'}</motion.span>
+      </div>
+      <div style={{flex:1,display:'flex',gap:10,alignItems:'center'}}>
+        <div style={{width:60,height:60,borderRadius:'50%',background:'radial-gradient(circle,#f97316 0%,#ea580c 50%,#7c2d12 100%)',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:isHigh?'0 0 25px #ea580c':'0 0 10px #7c2d12',transition:'all 0.3s'}}>
+          <motion.div
+            style={{position:'absolute',inset:-6,borderRadius:'50%',border:'0.8px solid #f97316',opacity:0.3}}
+            animate={{scale:[1,1.25,1]}} transition={{duration:1.2,repeat:Infinity}}
+          />
+        </div>
+        <div style={{flex:1,height:'100%',background:'rgba(0,0,0,0.3)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:8,padding:8,display:'flex',flexDirection:'column',gap:4}}>
+          <span style={{fontSize:'0.45rem',fontFamily:'Barlow,sans-serif',color:'rgba(255,255,255,0.3)'}}>X-Ray Flux Telemetry</span>
+          <svg width="100%" height="100%" viewBox="0 0 100 80" preserveAspectRatio="none" style={{flex:1,display:'block'}}>
+            <polyline points={pts} fill="none" stroke={isHigh?'#ef4444':'#f97316'} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+          </svg>
+        </div>
+      </div>
+      <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.52rem',fontFamily:'JetBrains Mono,monospace',color:'rgba(255,255,255,0.4)'}}>
+        <span>NOAA SOHO stream</span>
+        <span style={{color:isHigh?'#ef4444':'rgba(255,255,255,0.4)'}}>{isHigh?'X-Class Alert':'M-Class Peak'}</span>
+      </div>
+    </div>
+  );
+}
+
+/* LEETCODES: Mock code editor with passing test assertions */
+function LeetCodesSim() {
+  const [testCases, setTestCases] = useState([
+    { id:1, name:'Vector two-sum', status:'pending' },
+    { id:2, name:'Negative array bounds', status:'pending' },
+    { id:3, name:'Hashmap collision rate', status:'pending' }
+  ]);
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTick(t => {
+        const nt = (t + 1) % 4;
+        setTestCases(cases => cases.map((c, i) => {
+          if (i < nt) return { ...c, status:'passed' };
+          return { ...c, status:'pending' };
+        }));
+        return nt;
+      });
+    }, 1500);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div style={{width:'100%',height:'100%',background:'#0c0d12',display:'flex',flexDirection:'column',padding:14,gap:8}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.58rem',color:'#eab308',letterSpacing:'0.1em'}}>LEETCODE COMPILER MOCK</span>
+        <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.48rem',color:'#34d399'}}>STATUS: COMPILED</span>
+      </div>
+      <div style={{flex:1,background:'#07070a',border:'1px solid rgba(255,255,255,0.06)',borderRadius:8,padding:10,display:'flex',flexDirection:'column',gap:5}}>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#a78bfa'}}>int twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#fff',marginLeft:12}}>unordered_map&lt;int, int&gt; mp;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#fff',marginLeft:12}}>for(int i = 0; i &lt; nums.size(); i++) &#123;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#34d399',marginLeft:24}}>if(mp.count(target - nums[i])) return &#123;mp[target-nums[i]], i&#125;;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#fff',marginLeft:24}}>mp[nums[i]] = i;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#fff',marginLeft:12}}>&#125;</div>
+        <div style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.62rem',color:'#a78bfa'}}>&#125;</div>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:4}}>
+        {testCases.map(c => (
+          <div key={c.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.04)',borderRadius:4,padding:'3px 8px'}}>
+            <span style={{fontFamily:'Barlow,sans-serif',fontSize:'0.54rem',color:'rgba(255,255,255,0.7)'}}>{c.name}</span>
+            <span style={{fontFamily:'JetBrains Mono,monospace',fontSize:'0.52rem',color:c.status==='passed'?'#34d399':'rgba(255,255,255,0.25)'}}>{c.status==='passed'?'Pass ✓':'Running...'}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const simulations = {
   'visuals-ai': VisualsAISim,
   'devinspect': DevInspectSim,
@@ -1415,16 +1841,13 @@ const simulations = {
   'evalsync': EvalSyncSim,
   'bughunter': BugHunterSim,
   'resqnet': ResqNetSim,
-  'ai-workshop': AIWorkshopSim
-};
-
-  'visuals-ai': VisualsAISim,
-  'devinspect': DevInspectSim,
-  'resume-roaster': ResumeRoasterSim,
-  'evalsync': EvalSyncSim,
-  'bughunter': BugHunterSim,
-  'resqnet': ResqNetSim,
-  'ai-workshop': AIWorkshopSim
+  'ai-workshop': AIWorkshopSim,
+  'handwritten-ocr': HandwrittenOcrSim,
+  'crop-disease': CropDiseaseSim,
+  'campus-os': CampusOsSim,
+  'agrivision': AgriVisionSim,
+  'solarflare-ai': SolarFlareSim,
+  'leetcodes': LeetCodesSim
 };
 
 /* ── LiveDemosSection component ── */
@@ -1963,11 +2386,17 @@ const journey = [
   {year:'2026', title:'Visuals AI System Designer', desc:'AI-powered platform that auto-generates visual system architecture and infrastructure diagrams from natural language input.', side:'right', tag:'Main'},
   {year:'2026', title:'DevInspect-AI', desc:'AI-powered developer assistant — deep code inspection, real-time error detection, and code quality insights for any codebase.', side:'left', tag:'Main'},
   {year:'2026', title:'AI Resume Roaster', desc:'Brutally honest, AI-driven resume feedback platform — actionable critique and scoring to help candidates stand out in any job market.', side:'right', tag:'Main'},
+  {year:'2026', title:'CampusOS', desc:'Comprehensive campus governance portal managing real-time student profiling, automated gatepass, attendance trackers, and grade sheets.', side:'left', tag:'Main'},
+  {year:'2026', title:'Handwritten Text OCR', desc:'Neural network-driven handwriting recognition system utilizing ResNet and CTC loss to parse and extract plaintext from offline scripts.', side:'right', tag:'Main'},
+  {year:'2026', title:'Crop Disease Classifier', desc:'Deep learning mobile diagnostic classifier using MobileNetV2 to identify 38 leaf disease strains with 12ms inference speed.', side:'left', tag:'Main'},
 
   /* ── Lab & Research ── */
   {year:'2026', title:'BugHunter-AI', desc:'AI-powered vulnerability scanner that statically and dynamically analyzes codebases to surface hidden security bugs and exploits.', side:'left', tag:'Lab'},
   {year:'2026', title:'ResqNet', desc:'Disaster and emergency coordination platform for real-time response management, team dispatch, and incident tracking during crisis events.', side:'right', tag:'Lab'},
   {year:'2026', title:'AI Engineering Workshop', desc:'Open-source repo of AI experiments, workshop code, and research projects exploring cutting-edge machine learning concepts and implementations.', side:'left', tag:'Lab'},
+  {year:'2026', title:'AGRIVISION', desc:'Smart agriculture dashboard mapping real-time drone telemetry, crop moisture ratings, and multispectral vegetation indices.', side:'right', tag:'Lab'},
+  {year:'2026', title:'SOLARFLARE AI', desc:'Predictive LSTM and 3D CNN network monitoring solar radiation storms and forecasting critical weather alerts for spacecraft telemetry.', side:'left', tag:'Lab'},
+  {year:'2026', title:'LeetCodes Solutions', desc:'Algorithmic codex mapping optimized data structures and competitive programming solutions in C++, Java, and Python.', side:'right', tag:'Lab'},
 
   /* ── Deep Focus ── */
   {year:'2026', title:'Deep-Diving into Cybersecurity', desc:'Actively learning ethical hacking, penetration testing, CTF challenges, and network security. Building toward mastery.', side:'right', tag:null},

@@ -13,11 +13,17 @@ const journey = [
   {year:'2026', title:'Visuals AI System Designer', desc:'AI-powered platform that auto-generates visual system architecture and infrastructure diagrams from natural language input.', side:'right', tag:'Main'},
   {year:'2026', title:'DevInspect-AI', desc:'AI-powered developer assistant — deep code inspection, real-time error detection, and code quality insights for any codebase.', side:'left', tag:'Main'},
   {year:'2026', title:'AI Resume Roaster', desc:'Brutally honest, AI-driven resume feedback platform — actionable critique and scoring to help candidates stand out in any job market.', side:'right', tag:'Main'},
+  {year:'2026', title:'CampusOS', desc:'Comprehensive campus governance portal managing real-time student profiling, automated gatepass, attendance trackers, and grade sheets.', side:'left', tag:'Main'},
+  {year:'2026', title:'Handwritten Text OCR', desc:'Neural network-driven handwriting recognition system utilizing ResNet and CTC loss to parse and extract plaintext from offline scripts.', side:'right', tag:'Main'},
+  {year:'2026', title:'Crop Disease Classifier', desc:'Deep learning mobile diagnostic classifier using MobileNetV2 to identify 38 leaf disease strains with 12ms inference speed.', side:'left', tag:'Main'},
 
   /* ── Lab & Research ── */
   {year:'2026', title:'BugHunter-AI', desc:'AI-powered vulnerability scanner that statically and dynamically analyzes codebases to surface hidden security bugs and exploits.', side:'left', tag:'Lab'},
   {year:'2026', title:'ResqNet', desc:'Disaster and emergency coordination platform for real-time response management, team dispatch, and incident tracking during crisis events.', side:'right', tag:'Lab'},
   {year:'2026', title:'AI Engineering Workshop', desc:'Open-source repo of AI experiments, workshop code, and research projects exploring cutting-edge machine learning concepts and implementations.', side:'left', tag:'Lab'},
+  {year:'2026', title:'AGRIVISION', desc:'Smart agriculture dashboard mapping real-time drone telemetry, crop moisture ratings, and multispectral vegetation indices.', side:'right', tag:'Lab'},
+  {year:'2026', title:'SOLARFLARE AI', desc:'Predictive LSTM and 3D CNN network monitoring solar radiation storms and forecasting critical weather alerts for spacecraft telemetry.', side:'left', tag:'Lab'},
+  {year:'2026', title:'LeetCodes Solutions', desc:'Algorithmic codex mapping optimized data structures and competitive programming solutions in C++, Java, and Python.', side:'right', tag:'Lab'},
 
   /* ── Deep Focus ── */
   {year:'2026', title:'Deep-Diving into Cybersecurity', desc:'Actively learning ethical hacking, penetration testing, CTF challenges, and network security. Building toward mastery.', side:'right', tag:null},
